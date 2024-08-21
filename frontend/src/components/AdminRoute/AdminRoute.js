@@ -1,11 +1,11 @@
-import React, { Children } from 'react';
-import { useAuth } from '../../hooks/useAuth';
-import NotFound from '../NotFound/NotFound';
-import AuthRoute from '../AuthRoute/AuthRoute';
+import React from "react";
+import { useAuth } from "../../hooks/useAuth";
+import NotFound from "../NotFound/NotFound";
+import AuthRoute from "../AuthRoute/AuthRoute";
 
 function AdminRoute({ children }) {
   const { user } = useAuth();
-  return user.isAdmin ? (
+  return user?.isAdmin ? (
     children
   ) : (
     <NotFound

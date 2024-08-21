@@ -1,12 +1,13 @@
-import React, { useEffect } from 'react';
-import { useForm } from 'react-hook-form';
-import { useNavigate, useSearchParams, Link } from 'react-router-dom';
-import { useAuth } from '../../hooks/useAuth';
-import classes from './loginPage.module.css';
-import Title from '../../components/Title/Title';
-import Input from '../../components/Input/Input';
-import Button from '../../components/Button/Button';
-import { EMAIL } from '../../constants/patterns';
+import React, { useEffect } from "react";
+import { useForm } from "react-hook-form";
+import { useNavigate, useSearchParams, Link } from "react-router-dom";
+import { useAuth } from "../../hooks/useAuth";
+import classes from "./loginPage.module.css";
+import Title from "../../components/Title/Title";
+import Input from "../../components/Input/Input";
+import Button from "../../components/Button/Button";
+import { EMAIL } from "../../constants/patterns";
+
 export default function LoginPage() {
   const {
     handleSubmit,
@@ -17,16 +18,20 @@ export default function LoginPage() {
   const navigate = useNavigate();
   const { user, login } = useAuth();
   const [params] = useSearchParams();
-  const returnUrl = params.get('returnUrl');
+  const returnUrl = params.get("returnUrl");
 
   useEffect(() => {
-    if (!user) return;
-
-    returnUrl ? navigate(returnUrl) : navigate('/');
-  }, [user]);
+    if (user) {
+      navigate(returnUrl || "/");
+    }
+  }, [user, returnUrl, navigate]);
 
   const submit = async ({ email, password }) => {
-    await login(email, password);
+    try {
+      await login(email, password);
+    } catch (error) {
+      // Handle login errors here if necessary
+    }
   };
 
   return (
@@ -37,9 +42,12 @@ export default function LoginPage() {
           <Input
             type="email"
             label="Email"
-            {...register('email', {
-              required: true,
-              pattern: EMAIL,
+            {...register("email", {
+              required: "Email is required",
+              pattern: {
+                value: EMAIL,
+                message: "Invalid email address",
+              },
             })}
             error={errors.email}
           />
@@ -47,8 +55,8 @@ export default function LoginPage() {
           <Input
             type="password"
             label="Password"
-            {...register('password', {
-              required: true,
+            {...register("password", {
+              required: "Password is required",
             })}
             error={errors.password}
           />
@@ -57,7 +65,7 @@ export default function LoginPage() {
 
           <div className={classes.register}>
             New user? &nbsp;
-            <Link to={`/register${returnUrl ? '?returnUrl=' + returnUrl : ''}`}>
+            <Link to={`/register${returnUrl ? `?returnUrl=${returnUrl}` : ""}`}>
               Register here
             </Link>
           </div>
