@@ -1,25 +1,25 @@
-import { useEffect } from 'react';
-import { useForm } from 'react-hook-form';
-import Input from '../../components/Input/Input';
-import Title from '../../components/Title/Title';
-import classes from './registerPage.module.css';
-import Button from '../../components/Button/Button';
-import { Link } from 'react-router-dom';
-import { useSearchParams, useNavigate } from 'react-router-dom';
-import { useAuth } from '../../hooks/useAuth';
-import { EMAIL } from '../../constants/patterns';
+import React, { useEffect } from "react";
+import { useForm } from "react-hook-form";
+import { useNavigate, useSearchParams, Link } from "react-router-dom";
+import { useAuth } from "../../hooks/useAuth";
+import Input from "../../components/Input/Input";
+import Title from "../../components/Title/Title";
+import Button from "../../components/Button/Button";
+import classes from "./registerPage.module.css";
+import { EMAIL } from "../../constants/patterns";
 
 export default function RegisterPage() {
   const auth = useAuth();
   const { user } = auth;
   const navigate = useNavigate();
   const [params] = useSearchParams();
-  const returnUrl = params.get('returnUrl');
+  const returnUrl = params.get("returnUrl");
 
   useEffect(() => {
-    if (!user) return;
-    returnUrl ? navigate(returnUrl) : navigate('/');
-  }, [user]);
+    if (user) {
+      navigate(returnUrl || "/");
+    }
+  }, [user, navigate, returnUrl]);
 
   const {
     handleSubmit,
@@ -28,8 +28,15 @@ export default function RegisterPage() {
     formState: { errors },
   } = useForm();
 
-  const submit = async data => {
-    await auth.register(data);
+  const submit = async (data) => {
+    try {
+      await auth.register(data);
+      navigate(returnUrl || "/");
+    } catch (error) {
+      // Handle registration error here
+      console.error("Registration failed:", error);
+      // Optionally set error message state to display to user
+    }
   };
 
   return (
@@ -40,9 +47,12 @@ export default function RegisterPage() {
           <Input
             type="text"
             label="Name"
-            {...register('name', {
-              required: true,
-              minLength: 5,
+            {...register("name", {
+              required: "Name is required",
+              minLength: {
+                value: 5,
+                message: "Name must be at least 5 characters long",
+              },
             })}
             error={errors.name}
           />
@@ -50,9 +60,12 @@ export default function RegisterPage() {
           <Input
             type="email"
             label="Email"
-            {...register('email', {
-              required: true,
-              pattern: EMAIL,
+            {...register("email", {
+              required: "Email is required",
+              pattern: {
+                value: EMAIL,
+                message: "Invalid email address",
+              },
             })}
             error={errors.email}
           />
@@ -60,9 +73,12 @@ export default function RegisterPage() {
           <Input
             type="password"
             label="Password"
-            {...register('password', {
-              required: true,
-              minLength: 5,
+            {...register("password", {
+              required: "Password is required",
+              minLength: {
+                value: 5,
+                message: "Password must be at least 5 characters long",
+              },
             })}
             error={errors.password}
           />
@@ -70,11 +86,11 @@ export default function RegisterPage() {
           <Input
             type="password"
             label="Confirm Password"
-            {...register('confirmPassword', {
-              required: true,
-              validate: value =>
-                value !== getValues('password')
-                  ? 'Passwords Do No Match'
+            {...register("confirmPassword", {
+              required: "Please confirm your password",
+              validate: (value) =>
+                value !== getValues("password")
+                  ? "Passwords do not match"
                   : true,
             })}
             error={errors.confirmPassword}
@@ -83,9 +99,12 @@ export default function RegisterPage() {
           <Input
             type="text"
             label="Address"
-            {...register('address', {
-              required: true,
-              minLength: 10,
+            {...register("address", {
+              required: "Address is required",
+              minLength: {
+                value: 10,
+                message: "Address must be at least 10 characters long",
+              },
             })}
             error={errors.address}
           />
@@ -94,7 +113,7 @@ export default function RegisterPage() {
 
           <div className={classes.login}>
             Already a user? &nbsp;
-            <Link to={`/login${returnUrl ? '?returnUrl=' + returnUrl : ''}`}>
+            <Link to={`/login${returnUrl ? "?returnUrl=" + returnUrl : ""}`}>
               Login here
             </Link>
           </div>
