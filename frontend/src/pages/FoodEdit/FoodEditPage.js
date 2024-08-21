@@ -1,21 +1,19 @@
-import { useParams } from 'react-router-dom';
-import classes from './foodEdit.module.css';
-import { useForm } from 'react-hook-form';
-import { useEffect, useState } from 'react';
-import { add, getById, update } from '../../services/foodService';
-import Title from '../../components/Title/Title';
-import InputContainer from '../../components/InputContainer/InputContainer';
-import Input from '../../components/Input/Input';
-import Button from '../../components/Button/Button';
-import { uploadImage } from '../../services/uploadService';
-import { toast } from 'react-toastify';
-import { useNavigate } from 'react-router-dom';
+import React, { useEffect, useState } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+import { useForm } from "react-hook-form";
+import { add, getById, update } from "../../services/foodService";
+import { uploadImage } from "../../services/uploadService";
+import Title from "../../components/Title/Title";
+import InputContainer from "../../components/InputContainer/InputContainer";
+import Input from "../../components/Input/Input";
+import Button from "../../components/Button/Button";
+import { toast } from "react-toastify";
+import classes from "./foodEdit.module.css";
 
 export default function FoodEditPage() {
   const { foodId } = useParams();
   const [imageUrl, setImageUrl] = useState();
   const isEditMode = !!foodId;
-
   const navigate = useNavigate();
 
   const {
@@ -28,37 +26,53 @@ export default function FoodEditPage() {
   useEffect(() => {
     if (!isEditMode) return;
 
-    getById(foodId).then(food => {
-      if (!food) return;
-      reset(food);
-      setImageUrl(food.imageUrl);
-    });
-  }, [foodId]);
+    const loadFood = async () => {
+      try {
+        const food = await getById(foodId);
+        if (!food) return;
+        reset(food);
+        setImageUrl(food.imageUrl);
+      } catch (err) {
+        toast.error("Failed to load food details.");
+      }
+    };
 
-  const submit = async foodData => {
+    loadFood();
+  }, [foodId, isEditMode, reset]);
+
+  const submit = async (foodData) => {
     const food = { ...foodData, imageUrl };
 
-    if (isEditMode) {
-      await update(food);
-      toast.success(`Food "${food.name}" updated successfully!`);
-      return;
+    try {
+      if (isEditMode) {
+        await update(food);
+        toast.success(`Food "${food.name}" updated successfully!`);
+      } else {
+        const newFood = await add(food);
+        toast.success(`Food "${food.name}" added successfully!`);
+        navigate("/admin/editFood/" + newFood.id, { replace: true });
+      }
+    } catch (err) {
+      toast.error("Failed to save food details.");
     }
-
-    const newFood = await add(food);
-    toast.success(`Food "${food.name}" added successfully!`);
-    navigate('/admin/editFood/' + newFood.id, { replace: true });
   };
 
-  const upload = async event => {
-    setImageUrl(null);
-    const imageUrl = await uploadImage(event);
-    setImageUrl(imageUrl);
+  const upload = async (event) => {
+    if (event.target.files.length === 0) return;
+
+    try {
+      setImageUrl(null);
+      const url = await uploadImage(event.target.files[0]);
+      setImageUrl(url);
+    } catch (err) {
+      toast.error("Failed to upload image.");
+    }
   };
 
   return (
     <div className={classes.container}>
       <div className={classes.content}>
-        <Title title={isEditMode ? 'Edit Food' : 'Add Food'} />
+        <Title title={isEditMode ? "Edit Food" : "Add Food"} />
         <form
           className={classes.form}
           onSubmit={handleSubmit(submit)}
@@ -69,7 +83,12 @@ export default function FoodEditPage() {
           </InputContainer>
 
           {imageUrl && (
-            <a href={imageUrl} className={classes.image_link} target="blank">
+            <a
+              href={imageUrl}
+              className={classes.image_link}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               <img src={imageUrl} alt="Uploaded" />
             </a>
           )}
@@ -77,39 +96,39 @@ export default function FoodEditPage() {
           <Input
             type="text"
             label="Name"
-            {...register('name', { required: true, minLength: 5 })}
+            {...register("name", { required: true, minLength: 5 })}
             error={errors.name}
           />
 
           <Input
             type="number"
             label="Price"
-            {...register('price', { required: true })}
+            {...register("price", { required: true })}
             error={errors.price}
           />
 
           <Input
             type="text"
             label="Tags"
-            {...register('tags')}
+            {...register("tags")}
             error={errors.tags}
           />
 
           <Input
             type="text"
             label="Origins"
-            {...register('origins', { required: true })}
+            {...register("origins", { required: true })}
             error={errors.origins}
           />
 
           <Input
             type="text"
             label="Cook Time"
-            {...register('cookTime', { required: true })}
+            {...register("cookTime", { required: true })}
             error={errors.cookTime}
           />
 
-          <Button type="submit" text={isEditMode ? 'Update' : 'Create'} />
+          <Button type="submit" text={isEditMode ? "Update" : "Create"} />
         </form>
       </div>
     </div>
