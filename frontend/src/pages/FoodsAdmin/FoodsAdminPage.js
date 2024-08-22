@@ -72,7 +72,7 @@ export default function FoodsAdminPage() {
         {foods.map((food) => (
           <div key={food.id} className={classes.list_item}>
             <img
-              src={food.imageUrl}
+              src={food.imageUrl.replace("http://", "https://")}
               alt={food.name}
               className={classes.image}
             />
