@@ -1,12 +1,14 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import Price from '../../components/Price/Price';
-import Title from '../../components/Title/Title';
-import { useCart } from '../../hooks/useCart';
-import classes from './cartPage.module.css';
-import NotFound from '../../components/NotFound/NotFound';
+import React from "react";
+import { Link } from "react-router-dom";
+import Price from "../../components/Price/Price";
+import Title from "../../components/Title/Title";
+import { useCart } from "../../hooks/useCart";
+import classes from "./cartPage.module.css";
+import NotFound from "../../components/NotFound/NotFound";
+
 export default function CartPage() {
   const { cart, removeFromCart, changeQuantity } = useCart();
+
   return (
     <>
       <Title title="Cart Page" margin="1.5rem 0 0 2.5rem" />
@@ -16,38 +18,41 @@ export default function CartPage() {
       ) : (
         <div className={classes.container}>
           <ul className={classes.list}>
-            {cart.items.map(item => (
-              <li key={item.food.id}>
-                <div>
-                  <img src={`${item.food.imageUrl}`} alt={item.food.name} />
+            {cart.items.map((item) => (
+              <li key={item.food.id} className={classes.item}>
+                <div className={classes.imageContainer}>
+                  <img
+                    src={item.food.imageUrl?.replace("http://", "https://")}
+                    alt={item.food.name}
+                    onError={(e) =>
+                      (e.target.src = "/path-to-placeholder-image.jpg")
+                    }
+                  />
                 </div>
-                <div>
+                <div className={classes.name}>
                   <Link to={`/food/${item.food.id}`}>{item.food.name}</Link>
                 </div>
 
-                <div>
+                <div className={classes.quantity}>
                   <select
                     value={item.quantity}
-                    onChange={e => changeQuantity(item, Number(e.target.value))}
+                    onChange={(e) =>
+                      changeQuantity(item, Number(e.target.value))
+                    }
                   >
-                    <option>1</option>
-                    <option>2</option>
-                    <option>3</option>
-                    <option>4</option>
-                    <option>5</option>
-                    <option>6</option>
-                    <option>7</option>
-                    <option>8</option>
-                    <option>9</option>
-                    <option>10</option>
+                    {[...Array(10).keys()].map((n) => (
+                      <option key={n + 1} value={n + 1}>
+                        {n + 1}
+                      </option>
+                    ))}
                   </select>
                 </div>
 
-                <div>
+                <div className={classes.price}>
                   <Price price={item.price} />
                 </div>
 
-                <div>
+                <div className={classes.remove}>
                   <button
                     className={classes.remove_button}
                     onClick={() => removeFromCart(item.food.id)}
@@ -60,14 +65,18 @@ export default function CartPage() {
           </ul>
 
           <div className={classes.checkout}>
-            <div>
-              <div className={classes.foods_count}>{cart.totalCount}</div>
+            <div className={classes.summary}>
+              <div className={classes.foods_count}>
+                Total items: {cart.totalCount}
+              </div>
               <div className={classes.total_price}>
                 <Price price={cart.totalPrice} />
               </div>
             </div>
 
-            <Link to="/checkout">Proceed To Checkout</Link>
+            <Link to="/checkout" className={classes.checkout_link}>
+              Proceed To Checkout
+            </Link>
           </div>
         </div>
       )}
