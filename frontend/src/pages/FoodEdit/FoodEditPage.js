@@ -31,7 +31,12 @@ export default function FoodEditPage() {
         const food = await getById(foodId);
         if (food) {
           reset(food);
-          setImageUrl(food.imageUrl || "");
+          // Ensure HTTPS for existing food image URLs
+          setImageUrl(
+            food.imageUrl
+              ? food.imageUrl.replace(/^http:\/\//i, "https://")
+              : ""
+          );
         }
       } catch (err) {
         toast.error("Failed to load food details.");
@@ -65,9 +70,8 @@ export default function FoodEditPage() {
       const file = event.target.files[0];
       const url = await uploadImage(file);
       if (url) {
-        // Convert URL to HTTPS
-        const httpsUrl = url.replace(/^http:\/\//i, "https://");
-        setImageUrl(httpsUrl);
+        // Ensure HTTPS for uploaded image URLs
+        setImageUrl(url.replace(/^http:\/\//i, "https://"));
       } else {
         toast.error("Image upload failed. Please try again.");
       }
@@ -96,7 +100,13 @@ export default function FoodEditPage() {
               target="_blank"
               rel="noopener noreferrer"
             >
-              <img src={imageUrl} alt="Uploaded" />
+              <img
+                src={imageUrl}
+                alt="Uploaded"
+                onError={(e) =>
+                  (e.target.src = "/path-to-placeholder-image.jpg")
+                }
+              />
             </a>
           )}
 
