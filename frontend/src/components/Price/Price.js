@@ -1,9 +1,9 @@
-import React from 'react';
+import React from "react";
 
 export default function Price({ price, locale, currency }) {
   const formatPrice = () =>
     new Intl.NumberFormat(locale, {
-      style: 'currency',
+      style: "currency",
       currency,
     }).format(price);
 
@@ -11,6 +11,6 @@ export default function Price({ price, locale, currency }) {
 }
 
 Price.defaultProps = {
-  locale: 'en-US',
-  currency: 'USD',
+  locale: "en-ET", // Ethiopian locale (optional)
+  currency: "ETB", // Ethiopian Birr
 };
