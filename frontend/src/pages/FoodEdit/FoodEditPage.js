@@ -12,7 +12,7 @@ import classes from "./foodEdit.module.css";
 
 export default function FoodEditPage() {
   const { foodId } = useParams();
-  const [imageUrl, setImageUrl] = useState();
+  const [imageUrl, setImageUrl] = useState("");
   const isEditMode = !!foodId;
   const navigate = useNavigate();
 
@@ -29,9 +29,10 @@ export default function FoodEditPage() {
     const loadFood = async () => {
       try {
         const food = await getById(foodId);
-        if (!food) return;
-        reset(food);
-        setImageUrl(food.imageUrl);
+        if (food) {
+          reset(food);
+          setImageUrl(food.imageUrl || "");
+        }
       } catch (err) {
         toast.error("Failed to load food details.");
       }
@@ -50,7 +51,7 @@ export default function FoodEditPage() {
       } else {
         const newFood = await add(food);
         toast.success(`Food "${food.name}" added successfully!`);
-        navigate("/admin/editFood/" + newFood.id, { replace: true });
+        navigate(`/admin/editFood/${newFood.id}`, { replace: true });
       }
     } catch (err) {
       toast.error("Failed to save food details.");
@@ -61,9 +62,13 @@ export default function FoodEditPage() {
     if (event.target.files.length === 0) return;
 
     try {
-      setImageUrl(null);
-      const url = await uploadImage(event.target.files[0]);
-      setImageUrl(url);
+      const file = event.target.files[0];
+      const url = await uploadImage(file);
+      if (url) {
+        setImageUrl(url);
+      } else {
+        toast.error("Image upload failed. Please try again.");
+      }
     } catch (err) {
       toast.error("Failed to upload image.");
     }
@@ -96,14 +101,20 @@ export default function FoodEditPage() {
           <Input
             type="text"
             label="Name"
-            {...register("name", { required: true, minLength: 5 })}
+            {...register("name", {
+              required: "Name is required",
+              minLength: {
+                value: 5,
+                message: "Name must be at least 5 characters long",
+              },
+            })}
             error={errors.name}
           />
 
           <Input
             type="number"
             label="Price"
-            {...register("price", { required: true })}
+            {...register("price", { required: "Price is required" })}
             error={errors.price}
           />
 
@@ -117,14 +128,14 @@ export default function FoodEditPage() {
           <Input
             type="text"
             label="Origins"
-            {...register("origins", { required: true })}
+            {...register("origins", { required: "Origins are required" })}
             error={errors.origins}
           />
 
           <Input
             type="text"
             label="Cook Time"
-            {...register("cookTime", { required: true })}
+            {...register("cookTime", { required: "Cook Time is required" })}
             error={errors.cookTime}
           />
 

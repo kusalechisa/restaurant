@@ -12,7 +12,7 @@ export default function Header() {
     <header className={classes.header}>
       <div className={classes.container}>
         <Link to="/" className={classes.logo}>
-          Food Mine!
+          KETI RESTAURANT
         </Link>
         <nav>
           <ul>
@@ -22,9 +22,12 @@ export default function Header() {
                 <div className={classes.menu}>
                   <Link to="/profile">Profile</Link>
                   <Link to="/orders">Orders</Link>
-                  <button className={classes.logout_button} onClick={logout}>
-                    Logout
-                  </button>
+                  <Link>
+                    {" "}
+                    <button className={classes.logout_button} onClick={logout}>
+                      Logout
+                    </button>
+                  </Link>
                 </div>
               </li>
             ) : (

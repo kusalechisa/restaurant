@@ -1,38 +1,42 @@
-import { toast } from 'react-toastify';
-import axios from 'axios';
+import { toast } from "react-toastify";
+import axios from "axios";
 
-export const uploadImage = async event => {
+export const uploadImage = async (file) => {
   let toastId = null;
 
-  const image = await getImage(event);
-  if (!image) return null;
+  if (!file) return null;
 
   const formData = new FormData();
-  formData.append('image', image, image.name);
-  const response = await axios.post('api/upload', formData, {
-    onUploadProgress: ({ progress }) => {
-      if (toastId) toast.update(toastId, { progress });
-      else toastId = toast.success('Uploading...', { progress });
-    },
-  });
-  toast.dismiss(toastId);
-  return response.data.imageUrl;
-};
+  formData.append("image", file, file.name);
 
-const getImage = async event => {
-  const files = event.target.files;
+  try {
+    const response = await axios.post("/api/upload", formData, {
+      onUploadProgress: (progressEvent) => {
+        const progress = Math.round(
+          (progressEvent.loaded * 100) / progressEvent.total
+        );
+        if (toastId) {
+          toast.update(toastId, {
+            render: `Uploading... ${progress}%`,
+            progress,
+          });
+        } else {
+          toastId = toast.success(`Uploading... ${progress}%`, { progress });
+        }
+      },
+    });
 
-  if (!files || files.length <= 0) {
-    toast.warning('Upload file is nott selected!', 'File Upload');
+    toast.dismiss(toastId);
+
+    if (response.data && response.data.imageUrl) {
+      return response.data.imageUrl;
+    } else {
+      toast.error("Failed to get image URL from server");
+      return null;
+    }
+  } catch (error) {
+    toast.dismiss(toastId);
+    toast.error("Error uploading image: " + error.message);
     return null;
   }
-
-  const file = files[0];
-
-  if (file.type !== 'image/jpeg') {
-    toast.error('Only JPG type is allowed', 'File Type Error');
-    return null;
-  }
-
-  return file;
 };
