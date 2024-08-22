@@ -5,9 +5,9 @@
   "main": "index.js",
   "scripts": {
     "start": "cd backend && npm start",
-    "prebuild": "cd backend && npm install & cd frontend && npm install",
+    "prebuild": "cd backend && npm install && cd ../frontend && npm install",
     "build": "cd frontend && npm run build",
-    "postbuild": "mv -f frontend/build backend/src/public"
+    "postbuild": "move frontend\\build backend\\src\\public"
   },
   "keywords": [],
   "author": "",
