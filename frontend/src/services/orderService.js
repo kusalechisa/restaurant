@@ -1,35 +1,67 @@
-import axios from 'axios';
+import axios from "axios";
 
-export const createOrder = async order => {
+// Create a new order
+export const createOrder = async (order) => {
   try {
-    const { data } = axios.post('/api/orders/create', order);
+    const { data } = await axios.post("/api/orders/create", order);
     return data;
-  } catch (error) {}
+  } catch (error) {
+    console.error("Error creating order:", error);
+    throw error; // Re-throw error for further handling if needed
+  }
 };
 
+// Get the new order for the current user
 export const getNewOrderForCurrentUser = async () => {
-  const { data } = await axios.get('/api/orders/newOrderForCurrentUser');
-  return data;
-};
-
-export const pay = async paymentId => {
   try {
-    const { data } = await axios.put('/api/orders/pay', { paymentId });
+    const { data } = await axios.get("/api/orders/newOrderForCurrentUser");
     return data;
-  } catch (error) {}
+  } catch (error) {
+    console.error("Error fetching new order for current user:", error);
+    throw error; // Re-throw error for further handling if needed
+  }
 };
 
-export const trackOrderById = async orderId => {
-  const { data } = await axios.get('/api/orders/track/' + orderId);
-  return data;
+// Pay for an order
+export const pay = async (paymentId) => {
+  try {
+    const { data } = await axios.put("/api/orders/pay", { paymentId });
+    return data;
+  } catch (error) {
+    console.error("Error processing payment:", error);
+    throw error; // Re-throw error for further handling if needed
+  }
 };
 
-export const getAll = async state => {
-  const { data } = await axios.get(`/api/orders/${state ?? ''}`);
-  return data;
+// Track an order by ID
+export const trackOrderById = async (orderId) => {
+  try {
+    const { data } = await axios.get(`/api/orders/track/${orderId}`);
+    return data;
+  } catch (error) {
+    console.error("Error tracking order by ID:", error);
+    throw error; // Re-throw error for further handling if needed
+  }
 };
 
+// Get all orders by state
+export const getAll = async (state) => {
+  try {
+    const { data } = await axios.get(`/api/orders/${state ?? ""}`);
+    return data;
+  } catch (error) {
+    console.error("Error fetching all orders:", error);
+    throw error; // Re-throw error for further handling if needed
+  }
+};
+
+// Get all order statuses
 export const getAllStatus = async () => {
-  const { data } = await axios.get(`/api/orders/allstatus`);
-  return data;
+  try {
+    const { data } = await axios.get("/api/orders/allstatus");
+    return data;
+  } catch (error) {
+    console.error("Error fetching all statuses:", error);
+    throw error; // Re-throw error for further handling if needed
+  }
 };
