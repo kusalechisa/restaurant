@@ -29,8 +29,9 @@ export default function FoodPage() {
         <div className={classes.container}>
           <img
             className={classes.image}
-            src={`${food.imageUrl}`}
+            src={food.imageUrl?.replace("http://", "https://")}
             alt={food.name}
+            onError={(e) => (e.target.src = "/path-to-placeholder-image.jpg")}
           />
 
           <div className={classes.details}>
@@ -38,7 +39,7 @@ export default function FoodPage() {
               <span className={classes.name}>{food.name}</span>
               <span
                 className={`${classes.favorite} ${
-                  food.favorite ? '' : classes.not
+                  food.favorite ? "" : classes.not
                 }`}
               >
                 ❤
@@ -49,7 +50,7 @@ export default function FoodPage() {
             </div>
 
             <div className={classes.origins}>
-              {food.origins?.map(origin => (
+              {food.origins?.map((origin) => (
                 <span key={origin}>{origin}</span>
               ))}
             </div>
@@ -57,7 +58,7 @@ export default function FoodPage() {
             <div className={classes.tags}>
               {food.tags && (
                 <Tags
-                  tags={food.tags.map(tag => ({ name: tag }))}
+                  tags={food.tags.map((tag) => ({ name: tag }))}
                   forFoodPage={true}
                 />
               )}
