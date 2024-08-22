@@ -58,21 +58,22 @@ export default function FoodEditPage() {
     }
   };
 
-  const upload = async (event) => {
-    if (event.target.files.length === 0) return;
+const upload = async (event) => {
+  if (event.target.files.length === 0) return;
 
-    try {
-      const file = event.target.files[0];
-      const url = await uploadImage(file);
-      if (url) {
-        setImageUrl(url);
-      } else {
-        toast.error("Image upload failed. Please try again.");
-      }
-    } catch (err) {
-      toast.error("Failed to upload image.");
+  try {
+    const file = event.target.files[0];
+    const url = await uploadImage(file);
+    if (url) {
+      const httpsUrl = url.replace("http://", "https://");
+      setImageUrl(httpsUrl);
+    } else {
+      toast.error("Image upload failed. Please try again.");
     }
-  };
+  } catch (err) {
+    toast.error("Failed to upload image.");
+  }
+};
 
   return (
     <div className={classes.container}>
