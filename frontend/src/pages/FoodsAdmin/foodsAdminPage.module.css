@@ -6,7 +6,6 @@
 }
 
 .list {
-  margin: 1rem;
   max-width: 70rem;
 }
 
@@ -37,6 +36,8 @@ a.add_food:hover {
 }
 
 .list_item img {
+  margin-left: 1.5rem;
+ 
   width: 4rem;
   height: 4rem;
   border-radius: 100rem;
@@ -44,7 +45,17 @@ a.add_food:hover {
 }
 
 .actions > a {
-  margin-right: 1rem;
+  margin-right: 0.5rem;
   color: darkblue;
   cursor: pointer;
+}
+.actions {
+  margin-right: 0rem;
+  padding-left: 1.5rem;
+}
+.lists{
+  padding: 3rem;
+}
+.names{
+  padding-left: 0.5rem;
 }

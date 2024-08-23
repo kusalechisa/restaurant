@@ -71,7 +71,7 @@ export default function OrderTrackPage() {
       </div>
       <OrderItemsList order={order} />
       <div className={classes.mapContainer}>
-        <Title title="Your Location" fontSize="1.6rem" />
+        <Title title="Buyers Location" fontSize="1.6rem" />
         <Map
           location={order.addressLatLng}
           readonly={true}

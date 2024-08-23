@@ -1,11 +1,12 @@
-import React, { useEffect, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
-import classes from './search.module.css';
+import React, { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import classes from "./search.module.css";
 
 Search.defaultProps = {
-  searchRoute: '/search/',
-  defaultRoute: '/',
-  placeholder: 'Search Food!',
+  searchRoute: "/search/",
+  defaultRoute: "/",
+  placeholder: "Search Food!",
+  imgSrc: "./image.png",
 };
 
 export default function Search({
@@ -13,28 +14,41 @@ export default function Search({
   defaultRoute,
   margin,
   placeholder,
+  imgSrc,
 }) {
-  const [term, setTerm] = useState('');
+  const [term, setTerm] = useState("");
   const navigate = useNavigate();
   const { searchTerm } = useParams();
 
   useEffect(() => {
-    setTerm(searchTerm ?? '');
+    setTerm(searchTerm ?? "");
   }, [searchTerm]);
 
-  const search = async () => {
-    term ? navigate(searchRoute + term) : navigate(defaultRoute);
-  };
+  useEffect(() => {
+    // Only navigate if term is not empty
+    if (term) {
+      navigate(searchRoute + term);
+    } else {
+      navigate(defaultRoute);
+    }
+  }, [term, navigate, searchRoute, defaultRoute]);
+
   return (
     <div className={classes.container} style={{ margin }}>
-      <input
-        type="text"
-        placeholder={placeholder}
-        onChange={e => setTerm(e.target.value)}
-        onKeyUp={e => e.key === 'Enter' && search()}
-        value={term}
-      />
-      <button onClick={search}>Search</button>
+      <div className={classes.imagebg}>
+        {imgSrc && (
+          <img src={imgSrc} alt="Search Icon" className={classes.searchImage} />
+        )}
+      </div>
+
+      <div className={classes.searchInputContainer}>
+        <input
+          type="text"
+          placeholder={placeholder}
+          onChange={(e) => setTerm(e.target.value)}
+          value={term}
+        />
+      </div>
     </div>
   );
 }

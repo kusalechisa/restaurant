@@ -14,30 +14,37 @@ export default function Header() {
         <Link to="/" className={classes.logo}>
           KETI RESTAURANT
         </Link>
-        <nav>
-          <ul>
+        <nav className={classes.nav}>
+          <ul className={classes.menuList}>
             {user ? (
-              <li className={classes.menu_container}>
-                <Link to="/dashboard">{user.name}</Link>
-                <div className={classes.menu}>
-                  <Link to="/profile">Profile</Link>
-                  <Link to="/orders">Orders</Link>
-                  <Link>
-                    {" "}
-                    <button className={classes.logout_button} onClick={logout}>
-                      Logout
-                    </button>
+              <li className={classes.menuItem}>
+                <Link to="/dashboard" className={classes.userLink}>
+                  {user.name}
+                </Link>
+                <div className={classes.dropdownMenu}>
+                  <Link to="/profile" className={classes.dropdownLink}>
+                    Profile
                   </Link>
+                  <Link to="/orders" className={classes.dropdownLink}>
+                    Orders
+                  </Link>
+                  <button className={classes.logoutButton} onClick={logout}>
+                    Logout
+                  </button>
                 </div>
               </li>
             ) : (
-              <Link to="/login">Login</Link>
+              <li>
+                <Link to="/login" className={classes.userLink}>
+                  Login
+                </Link>
+              </li>
             )}
-            <li>
+            <li className={classes.cartLink}>
               <Link to="/cart">
                 Cart
                 {cart.totalCount > 0 && (
-                  <span className={classes.cart_count}>{cart.totalCount}</span>
+                  <span className={classes.cartCount}>{cart.totalCount}</span>
                 )}
               </Link>
             </li>

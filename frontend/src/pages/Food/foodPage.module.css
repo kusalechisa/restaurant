@@ -13,10 +13,12 @@
 
 .image {
   border-radius: 3rem;
-  flex: 1 0;
   object-fit: cover;
   height: 35rem;
   margin: 1rem;
+  padding: 2rem;
+  display: block; /* Ensures the image is treated as a block-level element */
+  max-width: 100%; /* Ensures the image does not overflow its container */
 }
 
 .details {
@@ -80,7 +82,7 @@
 }
 
 .price::before {
-  content: 'Price: ';
+  content: "Price: ";
   color: darkgrey;
 }
 

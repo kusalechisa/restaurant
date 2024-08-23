@@ -58,16 +58,21 @@ export default function FoodsAdminPage() {
   return (
     <div className={classes.container}>
       <div className={classes.list}>
-        <Title title="Manage Foods" margin="1rem auto" />
+        <Title title="Manage Foods" margin="2rem" />
         <Search
-          searchRoute="/admin/foods/"
-          defaultRoute="/admin/foods"
+          searchRoute="/admin/users/"
+          defaultRoute="/admin/users"
+          placeholder="Search Users"
           margin="1rem 0"
-          placeholder="Search Foods"
+          imgSrc={require("../../components/Search/image.png")} // Use require for local images
         />
-        <Link to="/admin/addFood" className={classes.add_food}>
-          Add Food +
-        </Link>
+        <div className={classes.lists}>
+          {" "}
+          <Link to="/admin/addFood" className={classes.add_food}>
+            Add Food +
+          </Link>
+        </div>
+
         <FoodsNotFound />
         {foods.map((food) => (
           <div key={food.id} className={classes.list_item}>
@@ -76,7 +81,11 @@ export default function FoodsAdminPage() {
               alt={food.name}
               className={classes.image}
             />
-            <Link to={`/food/${food.id}`}>{food.name}</Link>
+            <div className={classes.names}>
+              {" "}
+              <Link to={`/food/${food.id}`}>{food.name}</Link>
+            </div>
+
             <Price price={food.price} />
             <div className={classes.actions}>
               <Link to={`/admin/editFood/${food.id}`}>Edit</Link>
