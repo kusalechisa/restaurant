@@ -25,28 +25,30 @@ export default function Search({
   }, [searchTerm]);
 
   useEffect(() => {
-    // Only navigate if term is not empty
-    if (term) {
-      navigate(searchRoute + term);
-    } else {
-      navigate(defaultRoute);
-    }
+    const handleNavigation = () => {
+      if (term) {
+        navigate(searchRoute + term);
+      } else {
+        navigate(defaultRoute);
+      }
+    };
+
+    handleNavigation();
   }, [term, navigate, searchRoute, defaultRoute]);
 
   return (
     <div className={classes.container} style={{ margin }}>
-      <div className={classes.imagebg}>
-        {imgSrc && (
+      {imgSrc && (
+        <div className={classes.imagebg}>
           <img src={imgSrc} alt="Search Icon" className={classes.searchImage} />
-        )}
-      </div>
-
+        </div>
+      )}
       <div className={classes.searchInputContainer}>
         <input
           type="text"
           placeholder={placeholder}
-          onChange={(e) => setTerm(e.target.value)}
           value={term}
+          onChange={(e) => setTerm(e.target.value)}
         />
       </div>
     </div>
