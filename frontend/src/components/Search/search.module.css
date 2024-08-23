@@ -23,7 +23,7 @@
 }
 
 .searchInputContainer input {
-  border-radius: 10rem 0 0 10rem;
+  border-radius: 10rem;
   border: none;
   height: 3rem;
   width: 15rem;
