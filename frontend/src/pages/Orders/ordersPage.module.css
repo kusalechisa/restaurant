@@ -27,7 +27,7 @@
 
 .all_status a.selected {
   background-color: #007bff;
-  color: #fff;
+  color: #000000;
 }
 
 /* Order Summary */
