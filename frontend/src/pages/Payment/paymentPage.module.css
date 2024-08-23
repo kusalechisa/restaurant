@@ -1,37 +1,50 @@
 .container {
   display: flex;
-  margin: 0 2rem 6rem 2rem;
-  flex-wrap: wrap;
-  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  margin: 2rem auto;
+  padding: 1rem;
+  max-width: 1200px; /* Adjust the maximum width to fit your design */
 }
 
-.content {
-  width: 35rem;
-  margin: 0 3rem 0 0;
+.orderSection {
+  width: 100%;
+  max-width: 600px;
+  margin-bottom: 2rem;
+}
+
+.summary {
   display: flex;
   flex-direction: column;
+  margin-top: 1rem;
 }
 
-.summary > div {
+.summaryItem {
   display: flex;
-  margin-top: 0.7rem;
+  justify-content: space-between;
+  margin-top: 0.5rem;
+}
+
+.summary h3 {
+  margin: 0;
+  font-weight: 600;
 }
 
 .summary span {
   font-size: 1.2rem;
 }
-.summary h3 {
-  margin: 0 1rem 0 0;
-  flex-basis: 5rem;
+
+.mapSection {
+  width: 100%;
+  max-width: 600px; /* Ensures the map section is aligned with other content */
+  margin-bottom: 2rem;
+  display: flex;
+  justify-content: center; /* Centers the map within its container */
 }
 
-.buttons_container {
-  flex-basis: 100%;
+.buttonsContainer {
+  width: 100%;
+  max-width: 600px; /* Aligns with other sections */
   display: flex;
   justify-content: center;
-}
-
-.buttons {
-  margin: 2rem;
-  width: 35rem;
 }

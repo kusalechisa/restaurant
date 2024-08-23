@@ -1,42 +1,71 @@
+/* General Container */
 .container {
-  margin-top: 1rem;
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-}
-
-.content {
   display: flex;
   flex-direction: column;
+  align-items: center;
   width: 100%;
-  max-width: 35rem;
-  margin-right: 1rem;
+  max-width: 1200px; /* Adjust the maximum width to fit your design */
+  margin: 2rem auto; /* Center the container horizontally */
+  padding: 1rem;
 }
 
+/* Content Section */
+.content {
+  width: 100%;
+  max-width: 900px; /* Limit the width for better alignment */
+  margin-bottom: 2rem;
+  padding: 2rem; /* Padding around the content */
+  border: 1px solid #ddd;
+  border-radius: 0.5rem;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  background-color: #fff;
+}
+
+/* Header Layout */
 .header {
+  display: flex;
+  flex-direction: column;
   margin-bottom: 1rem;
 }
 
-.header > div {
-  margin-top: 1rem;
-  font-size: 1.1rem;
+.header div {
+  margin-bottom: 0.5rem;
 }
 
 .header strong {
-  display: inline-block;
-  width: 20%;
+  font-weight: 600;
+  margin-right: 0.5rem;
 }
-
-.payment {
+/* Map Section */
+.mapContainer {
   width: 100%;
-  text-align: center;
-  margin-top: 2rem;
-  margin-bottom: 5rem;
+  max-width: 900px; /* Align map with content width */
+  margin-bottom: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Center align the map section */
+  overflow: hidden; /* Hide any overflow */
 }
 
-.payment a {
-  background-color: #ff4d4d;
-  color: white;
-  padding: 0.8rem 5rem;
-  border-radius: 1rem;
+.mapContainer .map {
+  width: 100%; /* Ensure the map takes the full width of its container */
+  height: 400px; /* Adjust height as needed */
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+  .mapContainer {
+    max-width: 100%;
+    padding: 0 1rem; /* Add padding for smaller screens */
+  }
+
+  .mapContainer .map {
+    height: 300px; /* Adjust height for smaller screens */
+  }
+}
+
+@media (max-width: 768px) {
+  .mapContainer .map {
+    height: 250px; /* Further adjust height for very small screens */
+  }
 }

@@ -39,38 +39,44 @@ export default function OrderTrackPage() {
   return (
     <div className={classes.container}>
       <div className={classes.content}>
-        <h1>Order #{order.id}</h1>
+        <Title
+          title={`Order #${order.id}`}
+          fontSize="1rem"
+          margin="0 0 1rem 0"
+        />
         <div className={classes.header}>
           <div>
-            <strong>Date</strong>
+            <strong>Date:</strong>
             <DateTime date={order.createdAt} />
           </div>
           <div>
-            <strong>Name</strong>
+            <strong>Name:</strong>
             {order.name}
           </div>
           <div>
-            <strong>Address</strong>
+            <strong>Address:</strong>
             {order.address}
           </div>
           <div>
-            <strong>State</strong>
+            <strong>Status:</strong>
             {order.status}
           </div>
           {order.paymentId && (
             <div>
-              <strong>Payment ID</strong>
+              <strong>Payment ID:</strong>
               {order.paymentId}
             </div>
           )}
         </div>
-
-        <OrderItemsList order={order} />
       </div>
-
-      <div>
+      <OrderItemsList order={order} />
+      <div className={classes.mapContainer}>
         <Title title="Your Location" fontSize="1.6rem" />
-        <Map location={order.addressLatLng} readonly={true} />
+        <Map
+          location={order.addressLatLng}
+          readonly={true}
+          className={classes.map}
+        />
       </div>
 
       {order.status === "NEW" && (
