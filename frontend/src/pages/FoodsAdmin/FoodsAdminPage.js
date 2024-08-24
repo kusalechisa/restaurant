@@ -60,8 +60,8 @@ export default function FoodsAdminPage() {
       <div className={classes.list}>
         <Title title="Manage Foods" margin="2rem" />
         <Search
-          searchRoute="/admin/users/"
-          defaultRoute="/admin/users"
+          searchRoute="/admin/foods/"
+          defaultRoute="/admin/foods"
           placeholder="Search Users"
           margin="1rem 0"
           imgSrc={require("../../components/Search/image.png")} // Use require for local images
