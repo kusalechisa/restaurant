@@ -1,45 +1,54 @@
+/* Container styles */
 .container {
-  margin: auto;
+  margin: auto; /* Centers the container horizontally */
   margin-top: 1rem;
   max-width: 70rem;
   width: 100%;
+  display: flex; /* Enables Flexbox layout */
+  justify-content: center; /* Centers content horizontally */
+  align-items: center; /* Centers content vertically */
+  min-height: 100vh; /* Sets minimum height to full viewport height */
+  flex-direction: column; /* Ensures children are stacked vertically */
 }
 
+/* Menu styles */
 .menu {
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
-  gap: 1.5rem; /* Add gap for better spacing */
+  width: 100%; /* Ensures the menu takes full width available */
 }
 
+/* Menu item styles */
 .menu a {
   width: 22rem;
   height: 11rem;
-  margin: 1rem 1.5rem; /* Reduced margin for better spacing */
+  margin: 1.5rem 2rem;
   background-color: whitesmoke;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Updated shadow for softer look */
+  box-shadow: 0 0 5px 1px;
   border-radius: 1rem;
   display: flex;
   align-items: center;
   color: #444444;
   justify-content: space-around;
-  transition: box-shadow 0.3s ease, transform 0.3s ease; /* Added smooth transition */
+  transition: box-shadow 0.3s ease, transform 0.3s ease; /* Smooth transition for hover effects */
 }
 
+/* Image styles */
 .menu img {
-  width: 8rem; /* Adjusted size for better alignment */
-  height: 8rem;
+  width: 8rem;
+  height: 10rem;
   margin: 1rem;
-  border-radius: 0.5rem; /* Optional: Add some rounding to images */
 }
 
+/* Hover effect styles */
 .menu a:hover {
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); /* Enhance shadow on hover */
-  transform: translateY(-5px); /* Add slight lift effect */
+  box-shadow: 2px 2px 10px 1px grey;
+  transform: translateY(-5px); /* Adds a slight lift effect on hover */
 }
 
+/* Heading styles */
 .menu h2 {
-  font-size: 2rem; /* Adjusted font size */
-  margin-right: 1.5rem;
-  color: inherit; /* Ensure text color matches inherited color */
+  font-size: 2rem;
+  margin-right: 2rem;
 }

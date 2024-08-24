@@ -1,8 +1,11 @@
 .container {
   display: flex;
   justify-content: center;
-  margin-bottom: 10rem;
-}
+  margin-bottom: 2rem;
+ }
+ .contents{
+  text-align: center;
+ }
 
 .content,
 .form {

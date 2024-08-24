@@ -1,3 +1,4 @@
+/* Container styles */
 .container {
   display: flex;
   justify-content: center;
@@ -5,10 +6,14 @@
   margin-bottom: 10rem;
 }
 
+/* List styles */
 .list {
   max-width: 70rem;
+  width: 100%; /* Ensures the list adapts to the screen width */
+  padding: 0 1rem; /* Adds some padding to the sides */
 }
 
+/* Add food button styles */
 a.add_food {
   display: inline-block;
   background: darkred;
@@ -16,46 +21,112 @@ a.add_food {
   padding: 0.7rem;
   margin: 0.8rem 0;
   border-radius: 1.5rem;
+  text-align: center; /* Centers the text */
+  width: 100%; /* Ensures button takes full width on smaller screens */
+  max-width: 20rem; /* Restricts the maximum width on larger screens */
 }
 
 a.add_food:hover {
   opacity: 0.9;
 }
 
+/* List item styles */
 .list_item {
   display: grid;
-  grid-template-columns:
-    minmax(5rem, 7rem)
-    minmax(10rem, 20rem)
-    minmax(5rem, 10rem)
-    minmax(5rem, 10rem);
+  grid-template-columns: minmax(5rem, 7rem) minmax(10rem, 20rem) minmax(5rem, 10rem) minmax(5rem, 10rem);
   font-size: 1.2rem;
   height: 5rem;
   align-items: center;
   justify-content: center;
+  padding: 0 1rem; /* Adds padding for smaller screens */
 }
 
+/* Image styles */
 .list_item img {
   margin-left: 1.5rem;
- 
   width: 4rem;
   height: 4rem;
   border-radius: 100rem;
   object-fit: cover;
 }
 
+/* Action links */
 .actions > a {
   margin-right: 0.5rem;
   color: darkblue;
   cursor: pointer;
 }
+
+/* Actions container */
 .actions {
   margin-right: 0rem;
   padding-left: 1.5rem;
+     margin-left: 6rem;
 }
-.lists{
+
+/* List padding */
+.lists {
   padding: 3rem;
 }
-.names{
+
+/* Name padding */
+.names {
   padding-left: 0.5rem;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  /* Adjust grid for tablets and smaller screens */
+  .list_item {
+    grid-template-columns: minmax(4rem, 6rem) minmax(8rem, 1fr) minmax(4rem, 1fr);
+    font-size: 1rem; /* Smaller font size */
+    height: auto; /* Adjust height for content */
+    padding: 0.5rem; /* Adds padding for smaller screens */
+  }
+
+  .list_item img {
+    width: 3rem;
+    height: 3rem;
+  }
+
+  .actions {
+    padding-left: 0.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  /* Adjust grid for mobile phones */
+  .list_item {
+    grid-template-columns: minmax(3rem, 5rem) minmax(6rem, 1fr);
+    font-size: 0.9rem; /* Smaller font size for mobile */
+    padding: 0.5rem; /* Less padding for smaller screens */
+  }
+
+  .list_item img {
+    width: 2.5rem;
+    height: 2.5rem;
+    margin-left: 1rem; /* Less margin for smaller screens */
+  }
+
+  .actions > a {
+    margin-right: 0.3rem;
+ 
+  }
+
+  .container {
+    margin-bottom: 5rem; /* Reduced bottom margin for smaller screens */
+  }
+
+  .lists {
+    padding: 1.5rem; /* Reduced padding for smaller screens */
+  }
+
+  .names {
+    padding-left: 0.2rem; /* Reduced padding for smaller screens */
+  }
+
+  a.add_food {
+    width: 100%; /* Full width button for mobile */
+    max-width: none; /* Remove max width for better responsiveness */
+  }
 }

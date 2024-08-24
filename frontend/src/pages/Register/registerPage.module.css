@@ -1,23 +1,58 @@
+/* General Container Styles */
 .container {
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-direction: column; /* Stack items vertically on smaller screens */
   height: 100%;
   margin-top: 3rem;
+  padding: 0 1rem; /* Add padding for better spacing on small screens */
+  box-sizing: border-box; /* Include padding in total width calculation */
 }
 
+/* Details Section Styling */
 .details {
-  width: 25rem;
+  width: 100%; /* Full width on smaller screens */
+  max-width: 35rem; /* Limit maximum width */
+  padding-bottom: 2rem;
+  box-sizing: border-box; /* Include padding in total width calculation */
 }
 
+/* Form Styling */
 .details form {
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  gap: 1rem; /* Add spacing between form elements */
 }
 
+/* Login Section Styling */
 .login {
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-direction: column; /* Stack items vertically on smaller screens */
+}
+
+/* Media Queries for Responsive Adjustments */
+
+/* Tablet View */
+@media (max-width: 768px) {
+  .details {
+    max-width: 90%; /* Adjust width for tablets */
+  }
+  
+  .container {
+    padding: 0 1rem; /* Adjust padding for tablets */
+  }
+}
+
+/* Mobile View */
+@media (max-width: 480px) {
+  .details {
+    max-width: 100%; /* Full width on mobile */
+  }
+  
+  .container {
+    padding: 0 0.5rem; /* Further reduce padding for mobile screens */
+  }
 }

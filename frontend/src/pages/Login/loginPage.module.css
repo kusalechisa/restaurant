@@ -1,23 +1,60 @@
+/* General Container Styles */
 .container {
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-direction: column; /* Allows stacking elements vertically on small screens */
   height: 100%;
   margin-top: 3rem;
+  padding: 0 1rem; /* Adjusted padding for better spacing on small screens */
+  box-sizing: border-box; /* Ensures padding does not affect overall width */
 }
 
+/* Details Section Styling */
 .details {
-  width: 28rem;
+  width: 100%; /* Make details section responsive */
+  max-width: 28rem; /* Limits maximum width */
+  box-sizing: border-box; /* Ensures padding and border are included in width */
+  padding-bottom: 1rem;
 }
 
+/* Form Styling */
 .details form {
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  gap: 1rem; /* Adds spacing between form elements */
 }
 
+/* Register Section Styling */
 .register {
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-direction: column; /* Stacks elements vertically on small screens */
+}
+
+/* Media Queries for Responsive Adjustments */
+
+/* Tablet View */
+@media (max-width: 768px) {
+  .details {
+    width: 90%; /* Allows details to use more width on tablets */
+    max-width: none; /* Removes maximum width constraint */
+  }
+  
+  .container {
+    padding-left: 1rem; /* Adds padding for better spacing on tablets */
+  }
+}
+
+/* Mobile View */
+@media (max-width: 480px) {
+  .details {
+    width: 100%; /* Full width on mobile */
+    max-width: none; /* Removes maximum width constraint */
+  }
+  
+  .container {
+    padding-left: 0.5rem; /* Reduces padding for mobile screens */
+  }
 }
