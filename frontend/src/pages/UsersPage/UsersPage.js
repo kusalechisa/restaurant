@@ -4,8 +4,7 @@ import { useAuth } from "../../hooks/useAuth";
 import { getAll, toggleBlock } from "../../services/userService";
 import classes from "./usersPage.module.css";
 import Title from "../../components/Title/Title";
-import Search from "../../components/Search/Search";
-
+ 
 export default function UsersPage() {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -93,17 +92,7 @@ export default function UsersPage() {
   return (
     <div className={classes.container}>
       <Title title="Manage Users" />
-      <div className={classes.Searches}>
-        {" "}
-        <Search
-          searchRoute="/admin/users/"
-          defaultRoute="/admin/users"
-          placeholder="Search Users"
-          margin="1rem 0"
-          imgSrc={require("../../components/Search/image.png")}
-        />
-      </div>
-
+ 
       {loading && <p>Loading...</p>}
       {error && <p className={classes.error}>{error}</p>}
 

@@ -43,14 +43,14 @@ export default function Search({
           <img src={imgSrc} alt="Search Icon" className={classes.searchImage} />
         </div>
       )}
-      <div className={classes.searchInputContainer}>
+      {/* <div className={classes.searchInputContainer}>
         <input
           type="text"
           placeholder={placeholder}
           value={term}
           onChange={(e) => setTerm(e.target.value)}
         />
-      </div>
+      </div> */}
     </div>
   );
 }

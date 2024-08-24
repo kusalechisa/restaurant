@@ -4,7 +4,7 @@ import { Link, useParams } from "react-router-dom";
 import { deleteById, getAll, search } from "../../services/foodService";
 import NotFound from "../../components/NotFound/NotFound";
 import Title from "../../components/Title/Title";
-import Search from "../../components/Search/Search";
+
 import Price from "../../components/Price/Price";
 import { toast } from "react-toastify";
 
@@ -37,9 +37,9 @@ export default function FoodsAdminPage() {
     if (foods.length > 0) return null;
 
     return searchTerm ? (
-      <NotFound linkRoute="/admin/foods"/>
+      <NotFound linkRoute="/admin/foods" />
     ) : (
-      <NotFound linkRoute="/dashboard"/>
+      <NotFound linkRoute="/dashboard" />
     );
   };
 
@@ -58,14 +58,11 @@ export default function FoodsAdminPage() {
   return (
     <div className={classes.container}>
       <div className={classes.list}>
-        <Title title="Manage Foods" margin="2rem" />
-        <Search
-          searchRoute="/admin/foods/"
-          defaultRoute="/admin/foods"
-          placeholder="Search Users"
-          margin="1rem 0"
-          imgSrc={require("../../components/Search/image.png")} // Use require for local images
-        />
+        <div className={classes.centers}>
+          {" "}
+          <Title title="Manage Foods" margin="2rem" />
+        </div>
+
         <div className={classes.lists}>
           {" "}
           <Link to="/admin/addFood" className={classes.add_food}>

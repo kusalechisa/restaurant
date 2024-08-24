@@ -66,9 +66,12 @@ a.add_food:hover {
 
 /* List padding */
 .lists {
-  padding: 3rem;
+  text-align: center;
 }
 
+.centers {
+  text-align: center;
+}
 /* Name padding */
 .names {
   padding-left: 0.5rem;
