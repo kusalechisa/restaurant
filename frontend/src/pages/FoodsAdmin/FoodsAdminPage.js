@@ -37,9 +37,9 @@ export default function FoodsAdminPage() {
     if (foods.length > 0) return null;
 
     return searchTerm ? (
-      <NotFound linkRoute="/admin/foods" linkText="Show All" />
+      <NotFound linkRoute="/admin/foods"/>
     ) : (
-      <NotFound linkRoute="/dashboard" linkText="Back to dashboard!" />
+      <NotFound linkRoute="/dashboard"/>
     );
   };
 
