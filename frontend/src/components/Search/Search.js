@@ -22,19 +22,34 @@ export default function Search({
     setTerm(searchTerm ?? "");
   }, [searchTerm]);
 
-  const search = async () => {
+  const search = () => {
     term ? navigate(searchRoute + term) : navigate(defaultRoute);
   };
+
+  const clearSearch = () => {
+    setTerm(""); // Clear the input field
+    navigate(defaultRoute); // Refresh the data to the default route
+  };
+
   return (
     <div className={classes.container} style={{ margin }}>
-      <input
-        type="text"
-        placeholder={placeholder}
-        onChange={(e) => setTerm(e.target.value)}
-        onKeyUp={(e) => e.key === "Enter" && search()}
-        value={term}
-      />
-      <button onClick={search}>Search</button>
+      <div className={classes.inputWrapper}>
+        <input
+          type="text"
+          placeholder={placeholder}
+          onChange={(e) => setTerm(e.target.value)}
+          onKeyUp={(e) => e.key === "Enter" && search()}
+          value={term}
+        />
+        {term && (
+          <button onClick={clearSearch} className={classes.clearButton}>
+            &times;
+          </button>
+        )}
+      </div>
+      <button onClick={search} className={classes.searchButton}>
+        Search
+      </button>
     </div>
   );
 }
