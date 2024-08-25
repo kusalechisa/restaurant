@@ -5,8 +5,7 @@ import classes from "./search.module.css";
 Search.defaultProps = {
   searchRoute: "/search/",
   defaultRoute: "/",
-  placeholder: "Search Food!",
-  imgSrc: "./image.png",
+  placeholder: "Search Food Mine!",
 };
 
 export default function Search({
@@ -14,7 +13,6 @@ export default function Search({
   defaultRoute,
   margin,
   placeholder,
-  imgSrc,
 }) {
   const [term, setTerm] = useState("");
   const navigate = useNavigate();
@@ -24,33 +22,19 @@ export default function Search({
     setTerm(searchTerm ?? "");
   }, [searchTerm]);
 
-  useEffect(() => {
-    const handleNavigation = () => {
-      if (term) {
-        navigate(searchRoute + term);
-      } else {
-        navigate(defaultRoute);
-      }
-    };
-
-    handleNavigation();
-  }, [term, navigate, searchRoute, defaultRoute]);
-
+  const search = async () => {
+    term ? navigate(searchRoute + term) : navigate(defaultRoute);
+  };
   return (
     <div className={classes.container} style={{ margin }}>
-      {imgSrc && (
-        <div className={classes.imagebg}>
-          <img src={imgSrc} alt="Search Icon" className={classes.searchImage} />
-        </div>
-      )}
-      {/* <div className={classes.searchInputContainer}>
-        <input
-          type="text"
-          placeholder={placeholder}
-          value={term}
-          onChange={(e) => setTerm(e.target.value)}
-        />
-      </div> */}
+      <input
+        type="text"
+        placeholder={placeholder}
+        onChange={(e) => setTerm(e.target.value)}
+        onKeyUp={(e) => e.key === "Enter" && search()}
+        value={term}
+      />
+      <button onClick={search}>Search</button>
     </div>
   );
 }
