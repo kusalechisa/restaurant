@@ -27,6 +27,7 @@
   outline: none;
   padding-right: 2.5rem; /* Adjust padding for the clear button */
   box-sizing: border-box; /* Ensure padding is considered within the width */
+   padding-left: 2rem;
 }
 
 .clearButton {
@@ -75,6 +76,7 @@
     height: 2.5rem;
     font-size: 0.9rem;
     padding: 0.8rem;
+    padding-left: 2rem;
   }
 
   .clearButton {
@@ -98,6 +100,7 @@
     height: 2.5rem;
     font-size: 0.8rem;
     padding: 0.6rem;
+    padding-left: 2rem;
   }
 
   .clearButton {
