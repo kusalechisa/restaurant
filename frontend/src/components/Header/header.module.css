@@ -1,149 +1,131 @@
+/* header.module.css */
+
 .header {
-  background: white;
-  padding: 0;
-  border-bottom: 1px solid #e72929;
-  overflow: visible; /* Ensure dropdowns are not clipped */
+  background-color: #333; /* Dark background for the header */
+  color: white; /* White text color */
+  padding: 10px 20px; /* Padding for spacing */
+  display: flex; /* Flexbox layout for header content */
+  justify-content: center; /* Center content horizontally */
+  align-items: center; /* Center content vertically */
+  position: relative; /* Position for dropdown functionality */
 }
 
-.container {
-  margin: 0 auto;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0 1rem;
+.headerContainer {
+  display: flex; /* Flexbox layout */
+  justify-content: space-between; /* Space between branding and actions */
+  align-items: center; /* Align items vertically in the center */
+  width: 100%; /* Full width */
+  max-width: 1200px; /* Max width for larger screens */
+}
+
+.branding {
+  flex: 1; /* Flex grow for branding */
 }
 
 .logo {
-  font-weight: bold;
-  padding: 1rem;
-  text-decoration: none;
-  color: #af1313;
+  text-decoration: none; /* Remove underline */
+  font-size: 1.5rem; /* Larger font size for logo */
+  color: white; /* White color for logo */
 }
 
-.nav {
-  display: flex;
+.navigation {
+  display: flex; /* Flexbox layout for navigation links */
+  gap: 15px; /* Spacing between navigation links */
 }
 
-.menuList {
-  display: flex;
-  list-style: none;
-  margin: 0;
-  padding: 0;
+.navLink {
+  text-decoration: none; /* Remove underline from links */
+  color: white; /* White color for text */
+  font-size: 1rem; /* Standard font size */
+  padding: 5px 10px; /* Padding for clickable area */
+  transition: background-color 0.3s ease; /* Smooth transition for hover effect */
 }
 
-.menuItem {
-  position: relative;
+.navLink:hover {
+  background-color: #555; /* Slightly darker background on hover */
+  border-radius: 5px; /* Rounded corners on hover */
 }
 
-.userLink {
-  display: block;
-  padding: 1rem;
-  color: #af1313;
-  text-decoration: none;
-  font-weight: bold;
-  transition: background-color 0.3s ease, color 0.3s ease; /* Smooth transition */
+.userActions {
+  display: flex; /* Flexbox layout for user actions */
+  align-items: center; /* Align items vertically in the center */
+  gap: 15px; /* Spacing between user section and cart */
 }
 
-.userLink:hover {
-  background: #09cbed;
-  color: white;
+.userSection {
+  position: relative; /* Position for dropdown menu */
+}
+
+.userButton {
+  background: none; /* Transparent background */
+  border: none; /* Remove border */
+  color: white; /* White text */
+  font-size: 1rem; /* Standard font size */
+  cursor: pointer; /* Pointer cursor on hover */
+  padding: 5px 10px; /* Padding for clickable area */
+}
+
+.userButton:hover {
+  background-color: #555; /* Dark background on hover */
+  border-radius: 5px; /* Rounded corners on hover */
 }
 
 .dropdownMenu {
-  position: absolute;
-  top: 100%;
-  left: 0;
-  background: whitesmoke;
-  border: 1px solid #ddd;
-  border-radius: 5px;
-  display: none;
-  min-width: 8rem;
-  z-index: 1000; /* Ensure it's above other elements */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add subtle shadow for visibility */
+  position: absolute; /* Absolute positioning for dropdown */
+  top: 100%; /* Below the button */
+  right: 0; /* Align to the right */
+  background-color: white; /* White background for dropdown */
+  color: black; /* Black text color */
+  border-radius: 5px; /* Rounded corners */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Shadow for depth */
+  min-width: 120px; /* Minimum width for dropdown */
+  z-index: 10; /* Above other elements */
 }
 
-.menuItem:hover .dropdownMenu {
-  display: block;
+.dropdownItem {
+  background: none; /* Transparent background */
+  border: none; /* No border */
+  width: 100%; /* Full width for button */
+  padding: 10px; /* Padding for spacing */
+  text-align: left; /* Align text to the left */
+  cursor: pointer; /* Pointer cursor */
+  font-size: 1rem; /* Standard font size */
 }
 
-.dropdownLink,
-.logoutButton {
-  display: block;
-  padding: 0.5rem 1rem;
-  text-decoration: none;
-  color: #af1313;
-  transition: background-color 0.3s ease, color 0.3s ease; /* Smooth transition */
+.dropdownItem:hover {
+  background-color: #f0f0f0; /* Light gray background on hover */
 }
 
-.dropdownLink:hover,
-.logoutButton:hover {
-  background: #e72929;
-  color: white;
-}
-
-.logoutButton {
-  background: none;
-  border: none;
-  cursor: pointer;
-  font: inherit;
+.cartSection {
+  position: relative; /* Position for cart count badge */
 }
 
 .cartLink {
-  display: flex;
-  align-items: center;
-  padding-left: 1rem;
+  text-decoration: none; /* Remove underline */
+  color: white; /* White text */
+  font-size: 1rem; /* Standard font size */
+  padding: 5px 10px; /* Padding for clickable area */
+  display: flex; /* Flex layout for text and cart count */
+  align-items: center; /* Center items vertically */
 }
 
 .cartCount {
-  background-color: #ff4d4d;
-  color: white;
-  padding: 0.1rem 0.45rem;
-  border-radius: 50%;
-  font-size: 0.9rem;
-  margin-left: 0.5rem;
+  background-color: red; /* Red background for count badge */
+  color: white; /* White text color for badge */
+  font-size: 0.8rem; /* Smaller font size for badge */
+  padding: 2px 5px; /* Padding for badge */
+  border-radius: 50%; /* Circle shape for badge */
+  margin-left: 5px; /* Space between text and badge */
 }
 
-/* Responsive adjustments */
 @media (max-width: 768px) {
-  .logo {
-    font-size: 1.2rem;
+  .headerContainer {
+    flex-direction: column; /* Stack elements vertically */
+    align-items: flex-start; /* Align items to the start */
   }
 
-  .menuItem a,
-  .menuItem button {
-    padding: 0.8rem;
-  }
-}
-
-@media (max-width: 480px) {
-  .container {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
-  .nav {
-    width: 100%;
-  }
-
-  .menuList {
-    flex-direction: column;
-  }
-
-  .menuItem {
-    width: 100%;
-  }
-
-  .dropdownMenu {
-    position: static;
-    display: none;
-  }
-
-  .menuItem:hover .dropdownMenu {
-    display: block;
-  }
-
-  .cartCount {
-    font-size: 0.8rem;
-    padding: 0.1rem 0.3rem;
+  .navigation {
+    flex-direction: column; /* Stack navigation links vertically */
+    gap: 10px; /* Adjust gap for mobile view */
   }
 }

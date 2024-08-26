@@ -37,7 +37,7 @@ export default function PaymentPage() {
         <Map readonly={true} location={order.addressLatLng} />
       </div>
 
-      <div className={classes.buttonsContainer}>
+      <div className={classes.buttonsContainers}>
         <ChapaButtons order={order} />
       </div>
       <div className={classes.buttonsContainer}>

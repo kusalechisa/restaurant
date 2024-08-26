@@ -49,3 +49,10 @@
   justify-content: center;
   padding-top: 2rem;
 }
+.buttonsContainers {
+ 
+  max-width: 600px; /* Aligns with other sections */
+  display: flex;
+  justify-content: center;
+  padding-top: 2rem;
+}
