@@ -4,7 +4,8 @@ import classes from './loading.module.css';
 
 export default function Loading() {
   const { isLoading } = useLoading();
-  if (!isLoading) return;
+
+  if (!isLoading) return null; // Explicitly return null when not loading
 
   return (
     <div className={classes.container}>

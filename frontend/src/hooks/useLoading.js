@@ -1,6 +1,11 @@
-import { useState, createContext, useContext } from 'react';
+import { useState, createContext, useContext } from "react";
 
-const LoadingContext = createContext({});
+// Define the initial context value to avoid undefined errors
+const LoadingContext = createContext({
+  isLoading: false,
+  showLoading: () => {},
+  hideLoading: () => {},
+});
 
 export const LoadingProvider = ({ children }) => {
   const [isLoading, setIsLoading] = useState(false);
@@ -15,4 +20,5 @@ export const LoadingProvider = ({ children }) => {
   );
 };
 
+// Custom hook to use the loading context
 export const useLoading = () => useContext(LoadingContext);
