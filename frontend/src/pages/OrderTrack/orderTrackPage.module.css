@@ -51,7 +51,18 @@
   width: 100%; /* Ensure the map takes the full width of its container */
   height: 400px; /* Adjust height as needed */
 }
+.buttons_container {
+  display: flex;
+  justify-content: center;
+  width: auto;
+  background-color: rgb(239, 65, 100);
+  padding: 0.5rem 1rem 0.5rem 1rem;
+  border-radius: 1rem;
+  font-weight: bolder;
+  color: #fff;
+}
 
+ 
 /* Responsive Design */
 @media (max-width: 1200px) {
   .mapContainer {

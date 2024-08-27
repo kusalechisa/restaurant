@@ -40,17 +40,15 @@ export default function Header() {
         {/* Navigation */}
         <nav className={styles.navigation}>
           <Link to="/" className={styles.navLink}>
-            Home
-          </Link>
-          {/* <Link to="/menu" className={styles.navLink}>
             Menu
           </Link>
-          <Link to="/about" className={styles.navLink}>
+          {/* <Link to="/about" className={styles.navLink}>
             About
           </Link>
           <Link to="/contact" className={styles.navLink}>
             Contact
-          </Link> */}
+          </Link>{" "}
+           */}
           {user && (
             <Link to="/dashboard" className={styles.navLink}>
               Dashboard

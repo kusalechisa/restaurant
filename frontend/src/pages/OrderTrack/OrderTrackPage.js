@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { trackOrderById } from "../../services/orderService";
 import NotFound from "../../components/NotFound/NotFound";
 import classes from "./orderTrackPage.module.css";
@@ -7,6 +7,28 @@ import DateTime from "../../components/DateTime/DateTime";
 import OrderItemsList from "../../components/OrderItemsList/OrderItemsList";
 import Title from "../../components/Title/Title";
 import Map from "../../components/Map/Map";
+
+const OrderDetails = ({ order }) => (
+  <div className={classes.header}>
+    <div>
+      <strong>Date:</strong> <DateTime date={order.createdAt} />
+    </div>
+    <div>
+      <strong>Name:</strong> {order.name}
+    </div>
+    <div>
+      <strong>Address:</strong> {order.address}
+    </div>
+    <div>
+      <strong>Status:</strong> {order.status}
+    </div>
+    {order.paymentId && (
+      <div>
+        <strong>Payment ID:</strong> {order.paymentId}
+      </div>
+    )}
+  </div>
+);
 
 export default function OrderTrackPage() {
   const { orderId } = useParams();
@@ -16,12 +38,16 @@ export default function OrderTrackPage() {
 
   useEffect(() => {
     const fetchOrder = async () => {
+      if (!orderId) {
+        setError("Order ID is missing.");
+        setLoading(false);
+        return;
+      }
+
       try {
-        if (orderId) {
-          const fetchedOrder = await trackOrderById(orderId);
-          setOrder(fetchedOrder);
-        }
-      } catch (err) {
+        const fetchedOrder = await trackOrderById(orderId);
+        setOrder(fetchedOrder);
+      } catch {
         setError("Failed to fetch order. Please try again later.");
       } finally {
         setLoading(false);
@@ -33,7 +59,7 @@ export default function OrderTrackPage() {
 
   if (loading) return <div>Loading...</div>;
   if (error) return <NotFound message={error} linkText="Go To Home Page" />;
-  if (!orderId || !order)
+  if (!order)
     return <NotFound message="Order Not Found" linkText="Go To Home Page" />;
 
   return (
@@ -44,46 +70,24 @@ export default function OrderTrackPage() {
           fontSize="1rem"
           margin="0 0 1rem 0"
         />
-        <div className={classes.header}>
-          <div>
-            <strong>Date:</strong>
-            <DateTime date={order.createdAt} />
-          </div>
-          <div>
-            <strong>Name:</strong>
-            {order.name}
-          </div>
-          <div>
-            <strong>Address:</strong>
-            {order.address}
-          </div>
-          <div>
-            <strong>Status:</strong>
-            {order.status}
-          </div>
-          {order.paymentId && (
-            <div>
-              <strong>Payment ID:</strong>
-              {order.paymentId}
-            </div>
-          )}
-        </div>
+        <OrderDetails order={order} />
       </div>
       <OrderItemsList order={order} />
       <div className={classes.mapContainer}>
-        <Title title="Buyers Location" fontSize="1.6rem" />
+        <Title title="Buyer's Location" fontSize="1.6rem" />
         <Map
           location={order.addressLatLng}
           readonly={true}
           className={classes.map}
         />
       </div>
-
-      {/* {order.status === "NEW" && (
-        <div className={classes.payment}>
-          <Link to="/payment">Go To Payment</Link>
-        </div>
-      )} */}
+      {order.status === "NEW" && (
+        
+          <Link className={classes.buttons_container} to="/payment">
+            Go To Payment
+          </Link>
+       
+      )}
     </div>
   );
 }

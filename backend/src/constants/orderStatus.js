@@ -1,6 +1,6 @@
 export const OrderStatus = {
   NEW: 'NEW',
-  PAYED: 'PAYED',
+  PAYED: 'PAID',
   SHIPPED: 'SHIPPED',
   CANCELED: 'CANCELED',
   REFUNDED: 'REFUNDED',
