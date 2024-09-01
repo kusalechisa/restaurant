@@ -3,18 +3,30 @@ import classes from "./paymentPage.module.css";
 import { getNewOrderForCurrentUser } from "../../services/orderService";
 import Title from "../../components/Title/Title";
 import OrderItemsList from "../../components/OrderItemsList/OrderItemsList";
-import Map from "../../components/Map/Map";
-import PaypalButtons from "../../components/PaypalButtons/PaypalButtons";
 import ChapaButtons from "../../components/PaypalButtons/ChapaButtons";
 
 export default function PaymentPage() {
-  const [order, setOrder] = useState();
+  const [order, setOrder] = useState(null);
+  const [isLoading, setIsLoading] = useState(true); // State to manage loading status
 
   useEffect(() => {
-    getNewOrderForCurrentUser().then((data) => setOrder(data));
+    const fetchLatestOrder = async () => {
+      try {
+        const data = await getNewOrderForCurrentUser();
+        setOrder(data);
+      } catch (error) {
+        console.error("Failed to fetch the latest order:", error);
+      } finally {
+        setIsLoading(false); // Stop loading once the data is fetched
+      }
+    };
+
+    fetchLatestOrder();
   }, []);
 
-  if (!order) return null; // Prevent rendering if order data is not available
+  if (isLoading) return <div>Loading...</div>; // Show loading indicator while fetching data
+
+  if (!order) return <div>No recent order found.</div>; // Handle case where no order is found
 
   return (
     <div className={classes.container}>
@@ -32,17 +44,15 @@ export default function PaymentPage() {
         </div>
         <OrderItemsList order={order} />
       </div>
-      <Title title="Your Location" fontSize="1.8rem" />
-      <div className={classes.mapSection}>
-        <Map readonly={true} location={order.addressLatLng} />
-      </div>
+
+      {/* Removed the Title and Map component for "Your Location" */}
 
       <div className={classes.buttonsContainers}>
         <ChapaButtons order={order} />
       </div>
-      <div className={classes.buttonsContainer}>
+      {/* <div className={classes.buttonsContainer}>
         <PaypalButtons order={order} />
-      </div>
+      </div> */}
     </div>
   );
 }

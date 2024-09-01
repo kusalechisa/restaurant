@@ -106,7 +106,7 @@ function Buttons({ order }) {
   return (
     <div className={styles.chapaContainer}>
       <button onClick={handlePayment} className={styles.chapaButton}>
-        Pay with Mobile Banking
+        Pay
       </button>
     </div>
   );

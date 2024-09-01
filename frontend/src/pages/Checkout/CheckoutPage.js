@@ -10,7 +10,6 @@ import Title from "../../components/Title/Title";
 import Input from "../../components/Input/Input";
 import Button from "../../components/Button/Button";
 import OrderItemsList from "../../components/OrderItemsList/OrderItemsList";
-import Map from "../../components/Map/Map";
 
 export default function CheckoutPage() {
   const { cart } = useCart();
@@ -25,13 +24,19 @@ export default function CheckoutPage() {
   } = useForm();
 
   const submit = async (data) => {
-    if (!order.addressLatLng) {
-      toast.warning("Please select your location on the map");
+    // Check if address is provided
+    if (!data.address) {
+      toast.warning("Please enter your address.");
       return;
     }
 
-    await createOrder({ ...order, name: data.name, address: data.address });
-    navigate("/payment");
+    try {
+      await createOrder({ ...order, name: data.name, address: data.address });
+      navigate("/payment");
+    } catch (error) {
+      toast.error("Failed to create order. Please try again.");
+      console.error("Order creation error:", error);
+    }
   };
 
   return (
@@ -42,27 +47,18 @@ export default function CheckoutPage() {
           <div className={classes.inputs}>
             <Input
               defaultValue={user.name}
-              label="Name"
-              {...register("name")}
+              label="Your name"
+              {...register("name", { required: "Name is required" })}
               error={errors.name}
             />
             <Input
-              defaultValue={user.address}
-              label="Address"
-              {...register("address")}
+              label="Block, Dorm Number"
+              {...register("address", { required: "Address is required" })}
               error={errors.address}
+              onChange={(e) => setOrder({ ...order, address: e.target.value })}
             />
           </div>
           <OrderItemsList order={order} />
-        </div>
-        <Title title="Select Your Location" fontSize="1.6rem" />
-        <div className={classes.mapContainer}>
-          <Map
-            location={order.addressLatLng}
-            onChange={(latlng) => {
-              setOrder({ ...order, addressLatLng: latlng });
-            }}
-          />
         </div>
 
         <div className={classes.buttons_container}>
