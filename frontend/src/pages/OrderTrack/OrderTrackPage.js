@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
-import { trackOrderById } from "../../services/orderService";
+import { useParams } from "react-router-dom";
+import { trackOrderById, pay } from "../../services/orderService";
 import NotFound from "../../components/NotFound/NotFound";
 import classes from "./orderTrackPage.module.css";
 import DateTime from "../../components/DateTime/DateTime";
 import OrderItemsList from "../../components/OrderItemsList/OrderItemsList";
 import Title from "../../components/Title/Title";
+import { useCart } from "../../hooks/useCart";
+import ChapaButtons from "../../components/PaypalButtons/ChapaButtons";
 
 const OrderDetails = ({ order }) => (
   <div className={classes.orderDetails}>
@@ -34,6 +36,7 @@ export default function OrderTrackPage() {
   const [order, setOrder] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const { clearCart } = useCart();
 
   useEffect(() => {
     const fetchOrder = async () => {
@@ -56,6 +59,15 @@ export default function OrderTrackPage() {
     fetchOrder();
   }, [orderId]);
 
+  const handlePaymentResponse = async (response) => {
+    try {
+      await pay(response.data.payment_id);
+      clearCart();
+    } catch {
+      setError("Payment processing failed. Please try again later.");
+    }
+  };
+
   if (loading) return <div>Loading...</div>;
   if (error) return <NotFound message={error} linkText="Go To Home Page" />;
   if (!order)
@@ -72,11 +84,8 @@ export default function OrderTrackPage() {
         <OrderDetails order={order} />
       </div>
       <OrderItemsList order={order} />
-      {/* Removed Map component */}
       {order.status === "NEW" && (
-        <Link className={classes.buttons_container} to="/payment">
-          Go To Payment
-        </Link>
+        <ChapaButtons order={order} onPaymentResponse={handlePaymentResponse} />
       )}
     </div>
   );

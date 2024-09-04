@@ -1,14 +1,16 @@
 import React, { useState, useEffect } from "react";
 import classes from "./paymentPage.module.css";
-import { getNewOrderForCurrentUser } from "../../services/orderService";
+import { getNewOrderForCurrentUser, pay } from "../../services/orderService";
 import Title from "../../components/Title/Title";
 import OrderItemsList from "../../components/OrderItemsList/OrderItemsList";
 import ChapaButtons from "../../components/PaypalButtons/ChapaButtons";
+import { useCart } from "../../hooks/useCart";
 
 export default function PaymentPage() {
   const [order, setOrder] = useState(null);
   const [isLoading, setIsLoading] = useState(true); // State to manage loading status
-
+  const { clearCart } = useCart();
+  const [setError] = useState(null);
   useEffect(() => {
     const fetchLatestOrder = async () => {
       try {
@@ -28,6 +30,15 @@ export default function PaymentPage() {
 
   if (!order) return <div>No recent order found.</div>; // Handle case where no order is found
 
+  const handlePaymentResponse = async (response) => {
+    try {
+      await pay(response.data.payment_id);
+      clearCart();
+    } catch {
+      setError("Payment processing failed. Please try again later.");
+    }
+  };
+
   return (
     <div className={classes.container}>
       <div className={classes.orderSection}>
@@ -45,14 +56,14 @@ export default function PaymentPage() {
         <OrderItemsList order={order} />
       </div>
 
-      {/* Removed the Title and Map component for "Your Location" */}
-
       <div className={classes.buttonsContainers}>
-        <ChapaButtons order={order} />
+        {order.status === "NEW" && (
+          <ChapaButtons
+            order={order}
+            onPaymentResponse={handlePaymentResponse}
+          />
+        )}
       </div>
-      {/* <div className={classes.buttonsContainer}>
-        <PaypalButtons order={order} />
-      </div> */}
     </div>
   );
 }
