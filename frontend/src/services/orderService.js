@@ -1,73 +1,137 @@
 import axios from "axios";
 
-// Create a new order for the current user
+// Base URL for order management
+const ORDER_API_BASE_URL = "/api/orders";
+
+// Base URL for payment handling
+const PAYMENT_API_BASE_URL = "/api/payment";
+
+// CHAPA API Key (ensure this is stored securely, not hardcoded)
+const CHAPA_API_KEY = "Bearer CHAPUBK_TEST-lmJyYmYTMcuyQpy8b7etsnlFOTyTg8Ac";
+
+// Function to create a new order
 export const createOrder = async (order) => {
   try {
-    // Send a POST request to the API endpoint to create a new order
-    const { data } = await axios.post("/api/orders/create", order);
-    return data; // Return the created order data
+    const { data } = await axios.post(`${ORDER_API_BASE_URL}/create`, order);
+    return data;
   } catch (error) {
-    console.error("Error creating order:", error); // Log error for debugging
-    throw error; // Re-throw error for further handling if needed
+    console.error("Error creating order:", error);
+    throw error;
   }
 };
 
-// Get the most recent order for the current user
+// Function to get the most recent order for the current user
 export const getNewOrderForCurrentUser = async () => {
   try {
-    // Send a GET request to the API endpoint to fetch the new order for the current user
-    const { data } = await axios.get("/api/orders/newOrderForCurrentUser");
-    return data; // Return the fetched order data
+    const { data } = await axios.get(
+      `${ORDER_API_BASE_URL}/newOrderForCurrentUser`
+    );
+    return data;
   } catch (error) {
-    console.error("Error fetching new order for current user:", error); // Log error for debugging
-    throw error; // Re-throw error for further handling if needed
+    console.error("Error fetching new order for current user:", error);
+    throw error;
   }
 };
 
-// Pay for an existing order using paymentId
+// Function to pay for an existing order
 export const pay = async (paymentId) => {
   try {
-    // Send a PUT request to the API endpoint to process the payment
-    const { data } = await axios.put("/api/orders/pay", { paymentId });
-    return data; // Return the payment result data
+    const { data } = await axios.put(`${ORDER_API_BASE_URL}/pay`, {
+      paymentId,
+    });
+    return data;
   } catch (error) {
-    console.error("Error processing payment:", error); // Log error for debugging
-    throw error; // Re-throw error for further handling if needed
+    console.error("Error processing payment:", error);
+    throw error;
   }
 };
 
-// Track an order by its ID
+// Function to track an order by its ID
 export const trackOrderById = async (orderId) => {
   try {
-    // Send a GET request to the API endpoint to fetch order details by ID
-    const { data } = await axios.get(`/api/orders/track/${orderId}`);
-    return data; // Return the tracked order data
+    const { data } = await axios.get(`${ORDER_API_BASE_URL}/track/${orderId}`);
+    return data;
   } catch (error) {
-    console.error("Error tracking order by ID:", error); // Log error for debugging
-    throw error; // Re-throw error for further handling if needed
+    console.error("Error tracking order by ID:", error);
+    throw error;
   }
 };
 
-// Get all orders by their state
-export const getAll = async (state) => {
+// Function to get all orders by their status
+export const getAll = async (status) => {
   try {
-    // Send a GET request to the API endpoint to fetch all orders with a specific state
-    const { data } = await axios.get(`/api/orders/${state ?? ""}`);
-    return data; // Return the fetched orders data
+    const { data } = await axios.get(`${ORDER_API_BASE_URL}/${status ?? ""}`);
+    return data;
   } catch (error) {
-    console.error("Error fetching all orders:", error); // Log error for debugging
-    throw error; // Re-throw error for further handling if needed
+    console.error("Error fetching all orders:", error);
+    throw error;
   }
 };
 
-// Get all possible order statuses
+// Function to get all possible order statuses
 export const getAllStatus = async () => {
   try {
-    // Send a GET request to the API endpoint to fetch all possible order statuses
-    const { data } = await axios.get("/api/orders/allstatus");
-    return data; // Return the fetched statuses data
+    const { data } = await axios.get(`${ORDER_API_BASE_URL}/allstatus`);
+    return data;
   } catch (error) {
-    console.error("Error fetching all statuses:", error); // Log error for debugging
-    throw error; // Re-throw error for further handling if needed
+    console.error("Error fetching all statuses:", error);
+    throw error;
+  }
+};
+
+// Function to initialize a payment with Chapa
+export const initializeChapaPayment = async (paymentDetails) => {
+  try {
+    const response = await axios.post(
+      `${PAYMENT_API_BASE_URL}/initialize`,
+      paymentDetails,
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: CHAPA_API_KEY,
+        },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    handleError("initializing payment", error);
+    throw error;
+  }
+};
+
+// Function to verify a payment with Chapa
+export const verifyChapaPayment = async (transactionId) => {
+  try {
+    const response = await axios.post(
+      `${PAYMENT_API_BASE_URL}/verify`,
+      { transactionId },
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: CHAPA_API_KEY,
+        },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    handleError("verifying payment", error);
+    throw error;
+  }
+};
+
+// General error handling function
+const handleError = (action, error) => {
+  if (error.response) {
+    console.error(`Error ${action} with Chapa:`, {
+      status: error.response.status,
+      headers: error.response.headers,
+      data: error.response.data,
+    });
+  } else if (error.request) {
+    console.error(`Error ${action} with Chapa:`, {
+      request: error.request,
+    });
+  } else {
+    console.error(`Error ${action} with Chapa:`, error.message);
   }
 };

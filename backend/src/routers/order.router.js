@@ -1,4 +1,6 @@
 import { Router } from "express";
+import axios from "axios";
+import dotenv from "dotenv";
 import handler from "express-async-handler";
 import auth from "../middleware/auth.mid.js";
 import { BAD_REQUEST, UNAUTHORIZED } from "../constants/httpStatus.js";
@@ -7,8 +9,92 @@ import { OrderStatus } from "../constants/orderStatus.js";
 import { UserModel } from "../models/user.model.js";
 import { sendEmailReceipt } from "../helpers/mail.helper.js";
 
+dotenv.config();
+
 const router = Router();
-router.use(auth);
+const CHAPA_SECRET_KEY = process.env.CHAPA_SECRET_KEY;
+
+router.use(auth); // Make sure all routes require authentication
+
+// Initialize Chapa Payment
+router.post(
+  "/initialize",
+  handler(async (req, res) => {
+    const paymentDetails = req.body;
+
+    try {
+      const response = await axios.post(
+        "https://api.chapa.co/v1/transaction/initialize",
+        paymentDetails,
+        {
+          headers: {
+            Authorization: `Bearer ${CHAPA_SECRET_KEY}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      res.json(response.data);
+    } catch (error) {
+      console.error("Error initializing payment with Chapa:", {
+        message: error.message,
+        response: error.response?.data,
+        statusCode: error.response?.status,
+      });
+      res.status(500).json({
+        message: "Error initializing payment",
+        error: error.message,
+      });
+    }
+  })
+);
+
+// Verify Chapa Payment
+router.post(
+  "/verify",
+  handler(async (req, res) => {
+    const { transaction_id } = req.body;
+
+    try {
+      const response = await axios.get(
+        `https://api.chapa.co/v1/transaction/verify/${transaction_id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${CHAPA_SECRET_KEY}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      const verificationData = response.data;
+
+      if (verificationData.status === "success") {
+        const paymentId = verificationData.data.tx_ref; // Use tx_ref or another unique identifier
+        const order = await OrderModel.findOne({ paymentId });
+
+        if (!order) {
+          return res.status(BAD_REQUEST).send("Order not found for payment!");
+        }
+
+        order.status = OrderStatus.PAID;
+        await order.save();
+        sendEmailReceipt(order);
+        res.send({ orderId: order._id });
+      } else {
+        res.status(BAD_REQUEST).send("Payment verification failed.");
+      }
+    } catch (error) {
+      console.error("Error verifying payment with Chapa:", {
+        message: error.message,
+        response: error.response?.data,
+        statusCode: error.response?.status,
+      });
+      res.status(500).json({
+        message: "Error verifying payment",
+        error: error.message,
+      });
+    }
+  })
+);
 
 // Create a new order for the current user
 router.post(
@@ -31,24 +117,39 @@ router.post(
   })
 );
 
-// Pay for an existing order
 router.put(
   "/pay",
   handler(async (req, res) => {
     const { paymentId } = req.body;
-    const order = await getNewOrderForCurrentUser(req);
+
+    // Find the latest new order for the current user
+    const order = await OrderModel.findOne({
+      user: req.user.id,
+      status: OrderStatus.NEW,
+    })
+      .sort({ createdAt: -1 }) // Fetch the most recent order
+      .exec();
 
     if (!order) {
       return res.status(BAD_REQUEST).send("Order not found!");
     }
 
+    // Update the found order with the paymentId and status
     order.paymentId = paymentId;
     order.status = OrderStatus.PAID;
-    await order.save();
 
-    sendEmailReceipt(order);
-
-    res.send(order._id);
+    try {
+      await order.save();
+      // sendEmailReceipt(order); // Uncomment if you want to send email receipt
+      res.send({ orderId: order._id });
+    } catch (error) {
+      console.error("Error saving order:", {
+        message: error.message,
+        response: error.response?.data,
+        statusCode: error.response?.status,
+      });
+      res.status(500).send("Failed to update order status.");
+    }
   })
 );
 
@@ -83,7 +184,13 @@ router.get(
 router.get(
   "/newOrderForCurrentUser",
   handler(async (req, res) => {
-    const order = await getNewOrderForCurrentUser(req);
+    const order = await OrderModel.findOne({
+      user: req.user.id,
+      status: OrderStatus.NEW,
+    })
+      .sort({ createdAt: -1 }) // Fetch the most recent order by sorting
+      .populate("user");
+
     if (order) {
       res.send(order);
     } else {
@@ -117,14 +224,5 @@ router.get(
     res.send(orders);
   })
 );
-
-// Helper function to get the new order for the current user
-const getNewOrderForCurrentUser = async (req) =>
-  await OrderModel.findOne({
-    user: req.user.id,
-    status: OrderStatus.NEW,
-  })
-    .sort({ createdAt: -1 }) // Fetch the most recent order by sorting
-    .populate("user");
 
 export default router;

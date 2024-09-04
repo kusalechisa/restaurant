@@ -6,10 +6,9 @@ import classes from "./orderTrackPage.module.css";
 import DateTime from "../../components/DateTime/DateTime";
 import OrderItemsList from "../../components/OrderItemsList/OrderItemsList";
 import Title from "../../components/Title/Title";
-import Map from "../../components/Map/Map";
 
 const OrderDetails = ({ order }) => (
-  <div className={classes.header}>
+  <div className={classes.orderDetails}>
     <div>
       <strong>Date:</strong> <DateTime date={order.createdAt} />
     </div>
@@ -73,20 +72,11 @@ export default function OrderTrackPage() {
         <OrderDetails order={order} />
       </div>
       <OrderItemsList order={order} />
-      <div className={classes.mapContainer}>
-        <Title title="Buyer's Location" fontSize="1.6rem" />
-        <Map
-          location={order.addressLatLng}
-          readonly={true}
-          className={classes.map}
-        />
-      </div>
+      {/* Removed Map component */}
       {order.status === "NEW" && (
-        
-          <Link className={classes.buttons_container} to="/payment">
-            Go To Payment
-          </Link>
-       
+        <Link className={classes.buttons_container} to="/payment">
+          Go To Payment
+        </Link>
       )}
     </div>
   );

@@ -1,22 +1,23 @@
-import React from 'react';
-import { Route, Routes } from 'react-router-dom';
-import CartPage from './pages/Cart/CartPage';
-import FoodPage from './pages/Food/FoodPage';
-import HomePage from './pages/Home/HomePage';
-import LoginPage from './pages/Login/LoginPage';
-import RegisterPage from './pages/Register/RegisterPage';
-import AuthRoute from './components/AuthRoute/AuthRoute';
-import CheckoutPage from './pages/Checkout/CheckoutPage';
-import PaymentPage from './pages/Payment/PaymentPage';
-import OrderTrackPage from './pages/OrderTrack/OrderTrackPage';
-import ProfilePage from './pages/Profile/ProfilePage';
-import OrdersPage from './pages/Orders/OrdersPage';
-import Dashboard from './pages/Dashboard/Dashboard';
-import AdminRoute from './components/AdminRoute/AdminRoute';
-import FoodsAdminPage from './pages/FoodsAdmin/FoodsAdminPage';
-import FoodEditPage from './pages/FoodEdit/FoodEditPage';
-import UsersPage from './pages/UsersPage/UsersPage';
-import UserEditPage from './pages/UserEdit/UserEditPage';
+import React from "react";
+import { Route, Routes } from "react-router-dom";
+import CartPage from "./pages/Cart/CartPage";
+import FoodPage from "./pages/Food/FoodPage";
+import HomePage from "./pages/Home/HomePage";
+import LoginPage from "./pages/Login/LoginPage";
+import RegisterPage from "./pages/Register/RegisterPage";
+import AuthRoute from "./components/AuthRoute/AuthRoute";
+import CheckoutPage from "./pages/Checkout/CheckoutPage";
+import PaymentPage from "./pages/Payment/PaymentPage";
+import OrderTrackPage from "./pages/OrderTrack/OrderTrackPage";
+import ProfilePage from "./pages/Profile/ProfilePage";
+import OrdersPage from "./pages/Orders/OrdersPage";
+import Dashboard from "./pages/Dashboard/Dashboard";
+import AdminRoute from "./components/AdminRoute/AdminRoute";
+import FoodsAdminPage from "./pages/FoodsAdmin/FoodsAdminPage";
+import FoodEditPage from "./pages/FoodEdit/FoodEditPage";
+import UsersPage from "./pages/UsersPage/UsersPage";
+import UserEditPage from "./pages/UserEdit/UserEditPage";
+import PaymentVerification from "./components/PaypalButtons/PaymentVerification";
 
 export default function AppRoutes() {
   return (
@@ -28,6 +29,8 @@ export default function AppRoutes() {
       <Route path="/cart" element={<CartPage />} />
       <Route path="/login" element={<LoginPage />} />
       <Route path="/register" element={<RegisterPage />} />
+      <Route path="/verify" element={<PaymentVerification />} />{" "}
+      {/* Changed to element */}
       <Route
         path="/checkout"
         element={
@@ -84,7 +87,6 @@ export default function AppRoutes() {
           </AdminRoute>
         }
       />
-
       <Route
         path="/admin/addFood"
         element={
@@ -109,7 +111,6 @@ export default function AppRoutes() {
           </AdminRoute>
         }
       />
-
       <Route
         path="/admin/editUser/:userId"
         element={

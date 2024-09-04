@@ -19,6 +19,7 @@ function AdminRoute({ children }) {
 const AdminRouteExport = ({ children }) => (
   <AuthRoute>
     <AdminRoute>{children}</AdminRoute>
+    
   </AuthRoute>
 );
 
