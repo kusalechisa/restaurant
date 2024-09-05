@@ -17,7 +17,7 @@ import FoodsAdminPage from "./pages/FoodsAdmin/FoodsAdminPage";
 import FoodEditPage from "./pages/FoodEdit/FoodEditPage";
 import UsersPage from "./pages/UsersPage/UsersPage";
 import UserEditPage from "./pages/UserEdit/UserEditPage";
-import PaymentVerification from "./components/PaypalButtons/PaymentVerification";
+import VerifyPayment from "./components/PaypalButtons/VerifyPayment";
 
 export default function AppRoutes() {
   return (
@@ -29,7 +29,8 @@ export default function AppRoutes() {
       <Route path="/cart" element={<CartPage />} />
       <Route path="/login" element={<LoginPage />} />
       <Route path="/register" element={<RegisterPage />} />
-      <Route path="/verify" element={<PaymentVerification />} />{" "}
+      <Route path="/verify/:transaction_id" element={<VerifyPayment />} />
+
       {/* Changed to element */}
       <Route
         path="/checkout"
