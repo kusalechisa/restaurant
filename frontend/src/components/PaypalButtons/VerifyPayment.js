@@ -1,7 +1,6 @@
 import { useEffect } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
-
 import { useParams } from "react-router-dom";
 
 const VerifyPayment = () => {
@@ -28,7 +27,7 @@ const VerifyPayment = () => {
     verifyPayment();
   }, [transaction_id]);
 
-  return <h1>Verifying Payment...</h1>;
+  return <h1 style={{ textAlign: "center" }}>Go To Menu</h1>;
 };
 
 export default VerifyPayment;
