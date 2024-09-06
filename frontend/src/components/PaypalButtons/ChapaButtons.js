@@ -6,6 +6,7 @@ import styles from "./ChapaButtons.module.css";
 
 function ChapaButtons({ order, onPaymentResponse }) {
   const { showLoading, hideLoading } = useLoading();
+  const tx_ref = `TX-${Date.now()}`;
 
   const handlePayment = async () => {
     if (!order.name) {
@@ -18,7 +19,9 @@ function ChapaButtons({ order, onPaymentResponse }) {
     try {
       showLoading();
       const response = await initializeChapaPayment(paymentDetails);
-      handlePaymentResponse(response);
+
+      // Pass the tx_ref along with the payment response
+      handlePaymentResponse(response, tx_ref);
     } catch (error) {
       console.error("Payment Error:", error.response?.data || error.message);
       showToast("Payment failed. Please try again.");
@@ -33,17 +36,18 @@ function ChapaButtons({ order, onPaymentResponse }) {
     email: order.customerEmail,
     first_name: order.name || "Guest",
     phone_number: order.customerPhoneNumber || "0000000000",
-    tx_ref: `TX-${Date.now()}`,
+    tx_ref: tx_ref,
     callback_url: `${window.location.origin}/api/payment/verify`,
-    return_url: `${window.location.origin}/track/${order.id}`,
+    return_url: `${window.location.origin}/verify/${tx_ref}`,
     customization: {
       title: "Order Payment",
       description: "Payment for your order at Keti Cafe",
     },
   });
 
-  const handlePaymentResponse = (response) => {
+  const handlePaymentResponse = (response, tx_ref) => {
     if (response.status === "success" && response.data.checkout_url) {
+      // Optionally, redirect the user to the checkout page
        window.location.href = response.data.checkout_url;
     } else {
       showToast(
@@ -52,7 +56,8 @@ function ChapaButtons({ order, onPaymentResponse }) {
     }
 
     if (typeof onPaymentResponse === "function") {
-      onPaymentResponse(response);
+      // Pass both the response and tx_ref
+      onPaymentResponse({ ...response, tx_ref });
     } else {
       console.warn("onPaymentResponse is not a function");
     }

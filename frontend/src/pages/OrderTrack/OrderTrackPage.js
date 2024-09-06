@@ -61,8 +61,12 @@ export default function OrderTrackPage() {
 
   const handlePaymentResponse = async (response) => {
     try {
-      await pay(response.data.payment_id);
-      clearCart();
+      const tx_ref = response.tx_ref; // Use tx_ref instead of payment_id
+      console.log("Transaction Reference:", tx_ref);
+
+      // Use tx_ref in the pay function instead of payment_id
+      await pay(tx_ref);
+      clearCart(); // Clear the cart after successful payment
     } catch {
       setError("Payment processing failed. Please try again later.");
     }

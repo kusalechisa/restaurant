@@ -7,8 +7,7 @@ import { BAD_REQUEST, UNAUTHORIZED } from "../constants/httpStatus.js";
 import { OrderModel } from "../models/order.model.js";
 import { OrderStatus } from "../constants/orderStatus.js";
 import { UserModel } from "../models/user.model.js";
-import { sendEmailReceipt } from "../helpers/mail.helper.js";
-
+import { sendEmailReceipt } from "../helpers/email.service.js";
 dotenv.config();
 
 const router = Router();
@@ -54,7 +53,12 @@ router.post(
   handler(async (req, res) => {
     const { transaction_id } = req.body;
 
+    if (!transaction_id) {
+      return res.status(BAD_REQUEST).send("Transaction ID is required.");
+    }
+
     try {
+      // Verify the payment with Chapa
       const response = await axios.get(
         `https://api.chapa.co/v1/transaction/verify/${transaction_id}`,
         {
@@ -68,16 +72,25 @@ router.post(
       const verificationData = response.data;
 
       if (verificationData.status === "success") {
-        const paymentId = verificationData.data.tx_ref; // Use tx_ref or another unique identifier
+        const paymentId = verificationData.data.tx_ref;
         const order = await OrderModel.findOne({ paymentId });
 
         if (!order) {
           return res.status(BAD_REQUEST).send("Order not found for payment!");
         }
 
+        if (order.status === OrderStatus.PAID) {
+          return res.send({ orderId: order._id }); // Payment already processed
+        }
+
+        // Update order status to PAID
         order.status = OrderStatus.PAID;
         await order.save();
-        sendEmailReceipt(order);
+
+        // Send email receipt
+        await sendEmailReceipt(order);
+
+        // Respond with the order ID
         res.send({ orderId: order._id });
       } else {
         res.status(BAD_REQUEST).send("Payment verification failed.");
@@ -95,7 +108,6 @@ router.post(
     }
   })
 );
-
 // Create a new order for the current user
 router.post(
   "/create",
@@ -136,7 +148,6 @@ router.put(
 
     // Update the found order with the paymentId and status
     order.paymentId = paymentId;
-    order.status = OrderStatus.PAID;
 
     try {
       await order.save();
