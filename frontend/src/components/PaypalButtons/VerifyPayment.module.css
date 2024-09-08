@@ -6,7 +6,7 @@
   align-items: center;
   min-height: 100vh;
   padding: 20px;
-  background: linear-gradient(135deg, #23d6f5, #0ad1d1);
+  background: linear-gradient(135deg, #f5a623, #f76c6c);
 }
 
 .card {
@@ -26,7 +26,7 @@
 .card h1 {
   margin-bottom: 20px;
   font-size: 28px;
-  color: #00ffd9; /* Gold color */
+  color: #ffcc00; /* Gold color */
 }
 
 .downloadButton {
@@ -66,6 +66,10 @@
   margin: 10px 0;
   font-size: 16px;
   color: #333;
+}
+
+.qrCode {
+  margin: 20px 0;
 }
 
 /* Responsive Styles */
