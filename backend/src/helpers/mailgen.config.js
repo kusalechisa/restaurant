@@ -5,7 +5,7 @@ const mailGenerator = new Mailgen({
   theme: "default",
   product: {
     name: "Keti Restaurant",
-    link: "https://foodmine.com",
+    link: "https://kusalechisa.netlify.com",
   },
 });
 
@@ -14,13 +14,13 @@ export function generateEmail(order) {
     body: {
       name: order.name,
       intro:
-        "Your order has been successfully paid and is now being processed.",
+        "Your order has been successfully paid and is now being processed at Keti Restaurant.",
       table: {
         data: order.items.map((item) => ({
           item: item.food.name,
-          "Unit Price": `$${item.food.price}`,
+          "Unit Price": `${item.food.price} Birr.`,
           Quantity: item.quantity,
-          "Total Price": `$${item.price.toFixed(2)}`,
+          "Total Price": `${item.price.toFixed(2)} Birr.`,
         })),
         columns: [
           { header: "Item", key: "item" },
@@ -29,7 +29,7 @@ export function generateEmail(order) {
           { header: "Total Price", key: "Total Price" },
         ],
       },
-      outro: `Total Price: $${order.totalPrice}\nShipping Address: ${order.address}`,
+      outro: `Total Price: ${order.totalPrice}Birr. \nShipping Address: ${order.address}`,
     },
   };
 

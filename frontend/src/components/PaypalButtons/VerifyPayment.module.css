@@ -1,0 +1,92 @@
+/* VerifyPayment.module.css */
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 20px;
+  background: linear-gradient(135deg, #f5a623, #f76c6c);
+}
+
+.card {
+  width: 100%;
+  max-width: 500px;
+  padding: 20px;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  text-align: left;
+  border: 2px solid #007bff;
+  position: relative;
+  overflow: hidden;
+  color: #333; /* Dark text color for better readability */
+}
+
+.card h1 {
+  margin-bottom: 20px;
+  font-size: 28px;
+  color: #ffcc00; /* Gold color */
+}
+
+.downloadButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #28a745; /* Green color */
+  border: none;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  color: #fff;
+  font-size: 20px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  position: absolute;
+  top: 20px;
+  right: 20px;
+}
+
+.downloadButton:hover {
+  background-color: #218838; /* Darker green */
+  transform: scale(1.1);
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.info {
+  margin-top: 20px;
+}
+
+.info p {
+  margin: 10px 0;
+  font-size: 16px;
+  color: #333;
+}
+
+/* Responsive Styles */
+@media (max-width: 600px) {
+  .card {
+    padding: 15px;
+  }
+
+  .card h1 {
+    font-size: 24px;
+  }
+
+  .info p {
+    font-size: 14px;
+  }
+
+  .downloadButton {
+    width: 36px;
+    height: 36px;
+    font-size: 18px;
+    top: 15px;
+    right: 15px;
+  }
+}

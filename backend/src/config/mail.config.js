@@ -7,8 +7,8 @@ export function getTransporter() {
     port: 587, // Replace with the port your SMTP server uses
     secure: false, // Use true for port 465, false for other ports
     auth: {
-      user: "kusalechisac@gmail.com", // Replace with your email address
-      pass: "sntvidibsyjafsnm", // Replace with your email password
+      user: "kusalechisac@gmail.com",  
+      pass: "sntvidibsyjafsnm", 
     },
   });
 }
