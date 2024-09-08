@@ -88,7 +88,7 @@ const VerifyPayment = () => {
         <button onClick={downloadImage} className={styles.downloadButton}>
           <FontAwesomeIcon icon={faDownload} />
         </button>
-        <h1>Payment Verification</h1>
+        <h1 style={{textAlign:"center"}}>Payment Verification</h1>
         {paymentInfo ? (
           <div className={styles.content}>
             <QRCodeSVG value={qrValue} size={128} />
@@ -119,7 +119,7 @@ const VerifyPayment = () => {
             </div>
           </div>
         ) : (
-          <p>Loading payment information...</p>
+          <p style={{textAlign:"center"}}>payment information</p>
         )}
       </div>
     </div>
