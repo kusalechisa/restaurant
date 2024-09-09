@@ -1,5 +1,4 @@
 import { model, Schema } from "mongoose";
-import { OrderStatus } from "../constants/orderStatus.js";
 import { FoodModel } from "./food.model.js";
 
 export const LatLngSchema = new Schema(
@@ -24,7 +23,9 @@ export const OrderItemSchema = new Schema(
 );
 
 OrderItemSchema.pre("validate", function (next) {
-  this.price = this.food.price * this.quantity;
+  if (this.food && this.food.price) {
+    this.price = this.food.price * this.quantity;
+  }
   next();
 });
 
@@ -37,7 +38,7 @@ const orderSchema = new Schema(
     tx_ref: { type: String }, // Add this field to store Chapa transaction reference
     totalPrice: { type: Number, required: true },
     items: { type: [OrderItemSchema], required: true },
-    status: { type: String, default: OrderStatus.NEW },
+    status: { type: String, default: "NOT PAID" },
     user: { type: Schema.Types.ObjectId, required: true, ref: "user" },
   },
   {

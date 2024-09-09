@@ -40,10 +40,10 @@ const OrderStatusLinks = ({ allStatus, filter }) => (
   </div>
 );
 
-const OrderSummary = ({ order }) => (
+const OrderSummary = ({ order, index }) => (
   <div key={order.id} className={classes.order_summary}>
     <div className={classes.header}>
-      <span>{order.id}</span>
+      <span>Order #{index}</span>
       <span>
         <DateTime date={order.createdAt} />
       </span>
@@ -96,6 +96,11 @@ export default function OrdersPage() {
   if (loading) return <div>Loading...</div>;
   if (error) return <NotFound message={error} linkText="Go To Home Page" />;
 
+  // Sort orders by creation date in descending order
+  const sortedOrders = [...orders].sort(
+    (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+  );
+
   return (
     <div className={classes.container}>
       <Title title="Orders" margin="1.5rem 0 0 .2rem" fontSize="1.9rem" />
@@ -104,13 +109,19 @@ export default function OrdersPage() {
         <OrderStatusLinks allStatus={allStatus} filter={filter} />
       )}
 
-      {orders.length === 0 ? (
+      {sortedOrders.length === 0 ? (
         <NotFound
           linkRoute={filter ? "/orders" : "/"}
           linkText={filter ? "Show All" : "Go To Home Page"}
         />
       ) : (
-        orders.map((order) => <OrderSummary key={order.id} order={order} />)
+        sortedOrders.map((order, index) => (
+          <OrderSummary
+            key={order.id}
+            order={order}
+            index={sortedOrders.length - index}
+          />
+        ))
       )}
     </div>
   );

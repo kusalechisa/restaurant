@@ -108,6 +108,7 @@ router.post(
     }
   })
 );
+
 // Create a new order for the current user
 router.post(
   "/create",
@@ -122,7 +123,7 @@ router.post(
     const newOrder = new OrderModel({
       ...order,
       user: req.user.id,
-      status: OrderStatus.NEW,
+      status: OrderStatus.NOT_PAID, // Changed here
     });
     await newOrder.save();
     res.send(newOrder);
@@ -137,7 +138,7 @@ router.put(
     // Find the latest new order for the current user
     const order = await OrderModel.findOne({
       user: req.user.id,
-      status: OrderStatus.NEW,
+      status: OrderStatus.NOT_PAID, // Changed here
     })
       .sort({ createdAt: -1 }) // Fetch the most recent order
       .exec();
@@ -197,7 +198,7 @@ router.get(
   handler(async (req, res) => {
     const order = await OrderModel.findOne({
       user: req.user.id,
-      status: OrderStatus.NEW,
+      status: OrderStatus.NOT_PAID, // Changed here
     })
       .sort({ createdAt: -1 }) // Fetch the most recent order by sorting
       .populate("user");

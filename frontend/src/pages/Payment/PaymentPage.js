@@ -62,7 +62,7 @@ export default function PaymentPage() {
       </div>
 
       <div className={classes.buttonsContainers}>
-        {order.status === "NEW" && (
+        {order.status === "NOT PAID" && (
           <ChapaButtons
             order={order}
             onPaymentResponse={handlePaymentResponse}

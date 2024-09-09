@@ -88,7 +88,7 @@ export default function OrderTrackPage() {
         <OrderDetails order={order} />
       </div>
       <OrderItemsList order={order} />
-      {order.status === "NEW" && (
+      {order.status === "NOT PAID" && (
         <ChapaButtons order={order} onPaymentResponse={handlePaymentResponse} />
       )}
     </div>
