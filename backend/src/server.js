@@ -21,9 +21,10 @@ app.use(express.json());
 app.use(
   cors({
     credentials: true,
-    origin: ['http://localhost:3000'],
+    origin: ["http://localhost:3000", "https://keticafe.netlify.app"],
   })
 );
+
 
 app.use('/api/foods', foodRouter);
 app.use('/api/users', userRouter);
