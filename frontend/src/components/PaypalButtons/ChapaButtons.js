@@ -37,48 +37,48 @@ function ChapaButtons({ order, onPaymentResponse }) {
     first_name: order.name || "Guest",
     phone_number: order.customerPhoneNumber || "0000000000",
     tx_ref: tx_ref,
-    callback_url: `https://ketirestaurant.onrender.com/api/payment/verify`,
-    return_url: `https://ketirestaurant.onrender.com/verify/${tx_ref}`,
+    callback_url: `${window.location.origin}/api/payment/verify`,
+    return_url: `${window.location.origin}/verify/${tx_ref}`,
     customization: {
       title: "Order Payment",
       description: "Payment for your order at Keti Cafe",
     },
   });
 
-  const handlePaymentResponse = (response, tx_ref) => {
-    if (response.status === "success" && response.data.checkout_url) {
-      // Store all payment details in localStorage for retrieval in VerifyPayment
-      const paymentInfo = {
-        amount: order.totalPrice.toString(),
-        currency: "ETB",
-        email: order.customerEmail,
-        first_name: order.name || "Guest",
-        phone_number: order.customerPhoneNumber || "0000000000",
-        tx_ref: tx_ref,
-        callback_url: `https://ketirestaurant.onrender.com/api/payment/verify`,
-        return_url: `https://ketirestaurant.onrender.com/verify/${tx_ref}`,
-        customization: {
-          title: "Order Payment",
-          description: "Payment for your order at Keti Cafe",
-        },
-      };
+const handlePaymentResponse = (response, tx_ref) => {
+  if (response.status === "success" && response.data.checkout_url) {
+    // Store all payment details in localStorage for retrieval in VerifyPayment
+    const paymentInfo = {
+      amount: order.totalPrice.toString(),
+      currency: "ETB",
+      email: order.customerEmail,
+      first_name: order.name || "Guest",
+      phone_number: order.customerPhoneNumber || "0000000000",
+      tx_ref: tx_ref,
+      callback_url: `${window.location.origin}/api/payment/verify`,
+      return_url: `${window.location.origin}/verify/${tx_ref}`,
+      customization: {
+        title: "Order Payment",
+        description: "Payment for your order at Keti Cafe",
+      },
+    };
 
-      localStorage.setItem("paymentInfo", JSON.stringify(paymentInfo));
+    localStorage.setItem("paymentInfo", JSON.stringify(paymentInfo));
 
-      // Redirect to Chapa checkout page
-      window.location.href = response.data.checkout_url;
-    } else {
-      showToast(
-        `Payment initialization failed: ${response.message || "Unknown error"}`
-      );
-    }
+    // Redirect to Chapa checkout page
+    window.location.href = response.data.checkout_url;
+  } else {
+    showToast(
+      `Payment initialization failed: ${response.message || "Unknown error"}`
+    );
+  }
 
-    if (typeof onPaymentResponse === "function") {
-      onPaymentResponse({ ...response, tx_ref });
-    } else {
-      console.warn("onPaymentResponse is not a function");
-    }
-  };
+  if (typeof onPaymentResponse === "function") {
+    onPaymentResponse({ ...response, tx_ref });
+  } else {
+    console.warn("onPaymentResponse is not a function");
+  }
+};
 
   const showToast = (message, type = "error") => {
     toast[type](message, { position: toast.POSITION.TOP_RIGHT });
