@@ -1,7 +1,7 @@
 import axios from "axios";
 
 // Define the base URL of the backend
-const API_URL = "https://ketirestaurant.onrender.com/";
+const API_URL = "https://ketirestaurant.onrender.com";
 
 // Helper to get user from localStorage
 export const getUser = () =>
