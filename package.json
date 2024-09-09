@@ -1,4 +1,5 @@
 {
+  "proxy": "https://ketirestaurant.onrender.com/",
   "name": "foodmine-react",
   "version": "1.0.0",
   "description": "## 1. Demo And Installation",
