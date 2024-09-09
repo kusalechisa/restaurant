@@ -1,51 +1,40 @@
 import axios from "axios";
 
-// Base URL for the API
-const BASE_URL = "https://ketirestaurant.onrender.com/api/foods";
-
-// Fetch all foods
 export const getAll = async () => {
-  const { data } = await axios.get(`${BASE_URL}`);
+  const { data } = await axios.get("/api/foods");
   return data;
 };
 
-// Search for foods by a search term
 export const search = async (searchTerm) => {
-  const { data } = await axios.get(`${BASE_URL}/search/${searchTerm}`);
+  const { data } = await axios.get(`/api/foods/search/${searchTerm}`);
   return data;
 };
 
-// Fetch all available tags
 export const getAllTags = async () => {
-  const { data } = await axios.get(`${BASE_URL}/tags`);
+  const { data } = await axios.get("/api/foods/tags");
   return data;
 };
 
-// Fetch foods by a specific tag
 export const getAllByTag = async (tag) => {
   if (tag === "All") return getAll();
-  const { data } = await axios.get(`${BASE_URL}/tag/${tag}`);
+  const { data } = await axios.get(`/api/foods/tag/${tag}`);
   return data;
 };
 
-// Fetch food by its ID
 export const getById = async (foodId) => {
-  const { data } = await axios.get(`${BASE_URL}/${foodId}`);
+  const { data } = await axios.get(`/api/foods/${foodId}`);
   return data;
 };
 
-// Delete a food item by its ID
 export const deleteById = async (foodId) => {
-  await axios.delete(`${BASE_URL}/${foodId}`);
+  await axios.delete(`/api/foods/${foodId}`);
 };
 
-// Update a food item
 export const update = async (food) => {
-  await axios.put(`${BASE_URL}`, food);
+  await axios.put("/api/foods", food);
 };
 
-// Add a new food item
 export const add = async (food) => {
-  const { data } = await axios.post(`${BASE_URL}`, food);
+  const { data } = await axios.post("/api/foods", food);
   return data;
 };
