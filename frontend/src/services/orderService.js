@@ -1,8 +1,11 @@
 import axios from "axios";
 
+// Base URL for your backend
+const API_URL = "https://ketirestaurant.onrender.com/";
+
 // Base URL for order management and payment handling
-const ORDER_API_BASE_URL = "/api/orders";
-const PAYMENT_API_BASE_URL = "/api/payment";
+const ORDER_API_BASE_URL = `${API_URL}api/orders`;
+const PAYMENT_API_BASE_URL = `${API_URL}api/payment`;
 
 // CHAPA API Key (ensure this is stored securely, not hardcoded)
 const CHAPA_API_KEY = "Bearer CHAPUBK_TEST-lmJyYmYTMcuyQpy8b7etsnlFOTyTg8Ac";

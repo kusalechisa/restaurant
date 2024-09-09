@@ -7,6 +7,8 @@ import { faDownload } from "@fortawesome/free-solid-svg-icons";
 import styles from "./VerifyPayment.module.css";
 import { toast } from "react-toastify";
 
+const API_URL = "https://ketirestaurant.onrender.com/";
+
 const VerifyPayment = () => {
   const { transaction_id } = useParams();
   const [paymentInfo, setPaymentInfo] = useState(null);
@@ -23,7 +25,8 @@ const VerifyPayment = () => {
       }
 
       try {
-        await axios.post("/api/payment/verify", {
+        // Updated the API request URL to use API_URL
+        await axios.post(`${API_URL}api/payment/verify`, {
           transaction_id,
         });
         // Optionally, clear payment information from local storage
@@ -88,7 +91,7 @@ const VerifyPayment = () => {
         <button onClick={downloadImage} className={styles.downloadButton}>
           <FontAwesomeIcon icon={faDownload} />
         </button>
-        <h1 style={{textAlign:"center"}}>Payment Verification</h1>
+        <h1 style={{ textAlign: "center" }}>Payment Verification</h1>
         {paymentInfo ? (
           <div className={styles.content}>
             <QRCodeSVG value={qrValue} size={128} />
@@ -119,7 +122,7 @@ const VerifyPayment = () => {
             </div>
           </div>
         ) : (
-          <p style={{textAlign:"center"}}>payment information</p>
+          <p style={{ textAlign: "center" }}>payment information</p>
         )}
       </div>
     </div>
