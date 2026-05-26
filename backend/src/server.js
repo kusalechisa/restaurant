@@ -35,7 +35,7 @@ app.use("/api/payment", paymentRoutes);
 const publicFolder = path.join(__dirname, 'public');
 app.use(express.static(publicFolder));
 
-app.get('*', (req, res) => {
+app.use((req, res) => {
   const indexFilePath = path.join(publicFolder, 'index.html');
   res.sendFile(indexFilePath);
 });

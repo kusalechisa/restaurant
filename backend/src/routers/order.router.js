@@ -217,9 +217,25 @@ router.get("/allstatus", (req, res) => {
   res.send(allStatus);
 });
 
+// Get all orders
+router.get(
+  "/",
+  handler(async (req, res) => {
+    const user = await UserModel.findById(req.user.id);
+    const filter = {};
+
+    if (!user.isAdmin) {
+      filter.user = user._id;
+    }
+
+    const orders = await OrderModel.find(filter).sort("-createdAt");
+    res.send(orders);
+  })
+);
+
 // Get all orders by status
 router.get(
-  "/:status?",
+  "/:status",
   handler(async (req, res) => {
     const status = req.params.status;
     const user = await UserModel.findById(req.user.id);

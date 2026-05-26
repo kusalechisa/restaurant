@@ -95,7 +95,16 @@ router.put(
 );
 
 router.get(
-  '/getall/:searchTerm?',
+  '/getall',
+  admin,
+  handler(async (req, res) => {
+    const users = await UserModel.find({}, { password: 0 });
+    res.send(users);
+  })
+);
+
+router.get(
+  '/getall/:searchTerm',
   admin,
   handler(async (req, res) => {
     const { searchTerm } = req.params;
