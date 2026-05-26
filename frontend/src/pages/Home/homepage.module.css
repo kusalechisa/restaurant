@@ -1,0 +1,385 @@
+/* ========== HERO SECTION ========== */
+.hero {
+  position: relative;
+  width: 100%;
+  height: 70vh;
+  min-height: 400px;
+  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.heroOverlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  z-index: 1;
+}
+
+.heroContent {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  color: #fff;
+  padding: 2rem;
+  max-width: 800px;
+  animation: fadeInUp 1s ease-out;
+}
+
+.heroBadge {
+  display: inline-block;
+  background: #e72929;
+  color: #fff;
+  padding: 0.4rem 1.2rem;
+  border-radius: 50px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin-bottom: 1.5rem;
+}
+
+.heroTitle {
+  font-size: 3.5rem;
+  font-weight: 800;
+  margin: 0 0 0.5rem;
+  line-height: 1.15;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+}
+
+.heroHighlight {
+  color: #e72929;
+}
+
+.heroSubtitle {
+  font-size: 1.2rem;
+  color: rgba(255, 255, 255, 0.85);
+  margin: 0 0 2rem;
+  line-height: 1.6;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.heroActions {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.btnPrimary {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: #e72929;
+  color: #fff;
+  border: none;
+  padding: 0.85rem 2rem;
+  border-radius: 50px;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(231, 41, 41, 0.35);
+}
+
+.btnPrimary:hover {
+  background: #c41f1f;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(231, 41, 41, 0.5);
+}
+
+.btnSecondary {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: transparent;
+  color: #fff;
+  border: 2px solid rgba(255, 255, 255, 0.4);
+  padding: 0.85rem 2rem;
+  border-radius: 50px;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.btnSecondary:hover {
+  border-color: #fff;
+  background: rgba(255, 255, 255, 0.1);
+  transform: translateY(-2px);
+}
+
+/* ========== DECORATIVE SHAPES ========== */
+.heroShape {
+  position: absolute;
+  border-radius: 50%;
+  opacity: 0.08;
+  z-index: 1;
+}
+
+.heroShape1 {
+  width: 500px;
+  height: 500px;
+  background: #e72929;
+  top: -150px;
+  right: -100px;
+}
+
+.heroShape2 {
+  width: 350px;
+  height: 350px;
+  background: #ffa500;
+  bottom: -100px;
+  left: -80px;
+}
+
+.heroShape3 {
+  width: 200px;
+  height: 200px;
+  background: #00a12b;
+  top: 50%;
+  left: 60%;
+}
+
+/* ========== SECTION COMMON ========== */
+.section {
+  padding: 4rem 1.5rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.sectionHeader {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.sectionTag {
+  display: inline-block;
+  color: #e72929;
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin-bottom: 0.5rem;
+}
+
+.sectionTitle {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #1a1a2e;
+  margin: 0;
+}
+
+.sectionTitleLight {
+  color: #fff;
+}
+
+.sectionSubtitle {
+  color: #666;
+  margin-top: 0.5rem;
+  font-size: 1rem;
+}
+
+/* ========== STATS BANNER ========== */
+.statsBanner {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 2rem;
+  background: linear-gradient(135deg, #e72929, #c41f1f);
+  padding: 3rem 2rem;
+  border-radius: 1rem;
+  margin: 0 1.5rem;
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: -3rem;
+  position: relative;
+  z-index: 10;
+  box-shadow: 0 10px 40px rgba(231, 41, 41, 0.3);
+}
+
+.statItem {
+  text-align: center;
+  color: #fff;
+}
+
+.statNumber {
+  font-size: 2.2rem;
+  font-weight: 800;
+  margin: 0;
+  line-height: 1.2;
+}
+
+.statLabel {
+  font-size: 0.9rem;
+  opacity: 0.85;
+  margin: 0.25rem 0 0;
+}
+
+/* ========== SEARCH WRAPPER ========== */
+.searchWrapper {
+  padding: 5rem 1.5rem 2rem;
+  background: #f8f9fa;
+  margin-top: 0;
+}
+
+.searchInner {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+/* ========== CATEGORIES / TAGS ========== */
+.categoriesSection {
+  padding: 3rem 1.5rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.categoriesTitle {
+  text-align: center;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #1a1a2e;
+  margin-bottom: 1.5rem;
+}
+
+/* ========== MENU PREVIEW ========== */
+.menuSection {
+  padding: 3rem 1.5rem 5rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* ========== CTA SECTION ========== */
+.ctaSection {
+  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+  padding: 5rem 1.5rem;
+  text-align: center;
+  color: #fff;
+  margin-top: 2rem;
+}
+
+.ctaContent {
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.ctaTitle {
+  font-size: 2rem;
+  font-weight: 700;
+  margin: 0 0 1rem;
+}
+
+.ctaText {
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 1.05rem;
+  margin-bottom: 2rem;
+  line-height: 1.6;
+}
+
+.ctaButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: #e72929;
+  color: #fff;
+  border: none;
+  padding: 1rem 2.5rem;
+  border-radius: 50px;
+  font-size: 1.05rem;
+  font-weight: 700;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(231, 41, 41, 0.4);
+}
+
+.ctaButton:hover {
+  background: #c41f1f;
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(231, 41, 41, 0.5);
+}
+
+/* ========== FOOTER ========== */
+.footer {
+  background: #111;
+  color: rgba(255, 255, 255, 0.7);
+  padding: 2rem 1.5rem;
+  text-align: center;
+  font-size: 0.9rem;
+}
+
+.footerBrand {
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 0.3rem;
+}
+
+/* ========== ANIMATIONS ========== */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ========== RESPONSIVE ========== */
+@media (max-width: 768px) {
+  .hero {
+    height: 60vh;
+    min-height: 350px;
+  }
+
+  .heroTitle {
+    font-size: 2.2rem;
+  }
+
+  .heroSubtitle {
+    font-size: 1rem;
+  }
+
+  .heroActions {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .statsBanner {
+    grid-template-columns: repeat(2, 1fr);
+    padding: 2rem 1.5rem;
+    margin-left: 1rem;
+    margin-right: 1rem;
+  }
+
+  .statNumber {
+    font-size: 1.8rem;
+  }
+
+  .sectionTitle {
+    font-size: 1.6rem;
+  }
+
+  .ctaTitle {
+    font-size: 1.6rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .heroTitle {
+    font-size: 1.8rem;
+  }
+
+  .statsBanner {
+    grid-template-columns: 1fr 1fr;
+    gap: 1.2rem;
+  }
+}
